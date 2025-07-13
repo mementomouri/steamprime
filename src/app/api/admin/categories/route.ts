@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // <-- اصلاح شد
+import {prisma} from '@/lib/prisma'; // <-- اصلاح شد
 
 export async function GET() {
   try {
@@ -18,3 +18,5 @@ export async function GET() {
     );
   }
 }
+
+// توابع POST, PUT, DELETE برای دسته‌بندی‌ها در اینجا قرار می‌گیرند (اگر وجود دارند)
