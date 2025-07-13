@@ -1,13 +1,14 @@
-import { NextResponse } from 'next/server';
-import {prisma from} '@/lib/prisma'; // <-- اصلاح شد
+import { NextResponse, NextRequest } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
-interface Params {
-  params: { id: string };
-}
-
-export async function PUT(request: Request, { params }: Params) {
+// تابع برای ویرایش (Update) یک قیمت
+export async function PUT(request: NextRequest) {
   try {
-    const priceId = Number(params.id);
+    const priceId = Number(request.url.split('/').pop());
+    if (isNaN(priceId)) {
+      return new NextResponse("Invalid Price ID", { status: 400 });
+    }
+
     const body = await request.json();
     const { name, description, productId, categoryId, amount, color, storage, warranty, label } = body;
 
@@ -33,23 +34,28 @@ export async function PUT(request: Request, { params }: Params) {
     return NextResponse.json({ message: 'Update successful' });
   } catch (error) {
     console.error("Error updating data:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    return new NextResponse(
-      JSON.stringify({ message: "Error updating data", details: errorMessage }),
-      { status: 500 }
-    );
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, { params }: Params) {
+// تابع برای حذف یک قیمت
+export async function DELETE(request: NextRequest) {
   try {
-    const priceId = Number(params.id);
+    const priceId = Number(request.url.split('/').pop());
+    if (isNaN(priceId)) {
+      return new NextResponse("Invalid Price ID", { status: 400 });
+    }
+
     await prisma.$transaction(async (tx) => {
       const price = await tx.price.findUnique({
         where: { id: priceId },
         select: { product: { select: { categoryId: true } } },
       });
-      if (!price) throw new Error("Price not found");
+
+      if (!price) {
+        throw new Error("Price not found");
+      }
+      
       const categoryId = price.product.categoryId;
       await tx.price.delete({ where: { id: priceId } });
       await tx.category.update({
@@ -57,13 +63,10 @@ export async function DELETE(request: Request, { params }: Params) {
         data: { updatedAt: new Date() },
       });
     });
+
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting price:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    return new NextResponse(
-      JSON.stringify({ message: "Error deleting price", details: errorMessage }),
-      { status: 500 }
-    );
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

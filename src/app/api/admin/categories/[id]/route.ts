@@ -1,42 +1,48 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-interface Params {
-  params: { id: string };
-}
-
-// PUT (Update) a specific category
-export async function PUT(request: Request, { params }: Params) {
+// تابع برای ویرایش (Update) یک دسته‌بندی
+export async function PUT(request: NextRequest) {
   try {
-    const { id } = params;
-    const { name, brandColor } = await request.json();
+    // ID را مستقیماً از URL استخراج می‌کنیم
+    const categoryId = Number(request.url.split('/').pop());
+    if (isNaN(categoryId)) {
+      return new NextResponse("Invalid Category ID", { status: 400 });
+    }
+
+    const body = await request.json();
+    const { name, brandColor } = body;
 
     if (!name || !brandColor) {
-      return new NextResponse('Missing name or brandColor', { status: 400 });
+      return new NextResponse("Name and brandColor are required", { status: 400 });
     }
 
     const updatedCategory = await prisma.category.update({
-      where: { id: Number(id) },
+      where: { id: categoryId },
       data: { name, brandColor },
     });
 
     return NextResponse.json(updatedCategory);
   } catch (error) {
     console.error("Error updating category:", error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
-// DELETE a specific category
-export async function DELETE(request: Request, { params }: Params) {
+// تابع برای حذف یک دسته‌بندی
+export async function DELETE(request: NextRequest) {
   try {
-    await prisma.category.delete({
-      where: { id: Number(params.id) },
-    });
-    return new Response(null, { status: 204 }); // 204 No Content
+    // ID را مستقیماً از URL استخراج می‌کنیم
+    const categoryId = Number(request.url.split('/').pop());
+    if (isNaN(categoryId)) {
+      return new NextResponse("Invalid Category ID", { status: 400 });
+    }
+
+    await prisma.category.delete({ where: { id: categoryId } });
+    
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting category:", error);
-    // این خطا ممکن است زمانی رخ دهد که دسته‌بندی برای حذف پیدا نشود
-    return new Response(JSON.stringify({ message: 'خطا در حذف یا دسته‌بندی یافت نشد' }), { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

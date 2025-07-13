@@ -1,4 +1,4 @@
-"use client"; // <--- این خط کد مشکل را حل می‌کند
+"use client";
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
 
     try {
       const result = await signIn('credentials', {
@@ -28,14 +27,16 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError('ایمیل یا رمز عبور نامعتبر است.');
-        setIsLoading(false);
+        toast.error('ایمیل یا رمز عبور نادرست است.');
       } else if (result?.ok) {
-        // اگر ورود موفق بود، به داشبورد هدایت شو
+        toast.success('ورود با موفقیت انجام شد.');
         router.push('/admin/dashboard');
       }
-    } catch (error) {
-      setError('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    catch (_error) {
+      toast.error('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -45,7 +46,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">ورود به پنل مدیریت</CardTitle>
-          <CardDescription>برای دسترسی به داشبورد، وارد شوید.</CardDescription>
+          <CardDescription>لطفاً اطلاعات ورود را وارد کنید.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid gap-4">
@@ -70,7 +71,6 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'در حال ورود...' : 'ورود'}
             </Button>
