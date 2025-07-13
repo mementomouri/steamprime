@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma'; // <-- اصلاح شد
 
-// تابع GET بدون تغییر باقی می‌ماند
 export async function GET() {
   try {
     const categories = await prisma.category.findMany({
@@ -28,7 +27,6 @@ export async function GET() {
   }
 }
 
-// تابع POST برای افزودن محصول و قیمت
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -39,22 +37,16 @@ export async function POST(request: Request) {
     }
 
     const result = await prisma.$transaction(async (tx) => {
-      // ۱. ساخت محصول جدید
       const newProduct = await tx.product.create({
         data: { name, description: description || null, categoryId: Number(categoryId) },
       });
-
-      // ۲. ساخت قیمت اولیه برای آن محصول
       await tx.price.create({
         data: { amount: Number(amount), productId: newProduct.id, color: color || null, storage: storage || null, warranty: warranty || null, label: label || 'اصلی' },
       });
-
-      // ۳. آپدیت کردن زمان بروزرسانی دسته‌بندی
       await tx.category.update({
         where: { id: Number(categoryId) },
         data: { updatedAt: new Date() },
       });
-
       return newProduct;
     });
 
