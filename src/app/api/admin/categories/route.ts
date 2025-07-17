@@ -11,6 +11,10 @@ export async function GET() {
     return NextResponse.json(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return new NextResponse(
+      JSON.stringify({ message: "Error fetching categories", details: errorMessage }),
+      { status: 500 }
+    );
   }
 }

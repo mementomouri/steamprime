@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
-import Providers from "./providers"; // ایمپورت کامپوننت جدید
+import Providers from "./providers";
 
-const vazirmatn = Vazirmatn({ subsets: ["latin"] });
+const vazirmatn = Vazirmatn({
+  subsets: ["latin", "arabic"],
+  variable: "--font-vazirmatn",
+});
 
 export const metadata: Metadata = {
   title: "Mobile Tiger Admin",
@@ -16,12 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl">
-      <body className={vazirmatn.className}>
-        {/* استفاده از کامپوننت جدید به جای SessionProvider مستقیم */}
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="fa" dir="rtl" className={`${vazirmatn.variable} ${vazirmatn.className}`}>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

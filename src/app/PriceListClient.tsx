@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import type { Category, Product, Price } from "@prisma/client";
 
 // Note: The 'amount' property on PriceItem is now a string because of serialization
-type PriceItem = Omit<Price, 'amount'> & { amount: string };
+type PriceItem = Omit<Price, 'amount'> & { amount: string, dimensions?: string | null };
 type ProductWithPrices = Omit<Product, 'prices'> & { prices: PriceItem[] };
 type CategoryWithProducts = Omit<Category, 'products'> & { products: ProductWithPrices[] };
 
@@ -42,11 +42,6 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
       <div className="flex justify-between items-center my-6">
         <header>
           <h1 className="text-2xl font-bold text-gray-800">آخرین قیمت های موبایل</h1>
-          {/* این پاراگراف طبق درخواست شما حذف شد
-            <p className="text-sm text-gray-500 mt-1">
-              آخرین بروزرسانی از طریق پنل مدیریت
-            </p> 
-          */}
         </header>
 
         <div className="relative">
@@ -72,7 +67,6 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
               <div className={`flex justify-between items-center text-white p-3 rounded-t-lg ${category.brandColor || 'bg-gray-800'}`}>
                 <h2 className="text-xl font-bold">{category.name}</h2>
                 <span className="text-xs font-mono bg-black/20 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full">
-                  {/* این بخش برای نمایش ساعت اصلاح شد */}
                   آخرین بروزرسانی: {new Date(category.updatedAt).toLocaleString('fa-IR', { dateStyle: 'short', timeStyle: 'short' })}
                 </span>
               </div>
@@ -80,7 +74,6 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                 <table className="min-w-full text-sm text-center text-gray-800">
                    <thead className="bg-gray-200 text-gray-600 uppercase tracking-wider">
                       <tr>
-                        <th className="p-3">مشخصات</th>
                         <th className="p-3">گزینه</th>
                         <th className="p-3">رنگ</th>
                         <th className="p-3">حافظه</th>
@@ -92,7 +85,6 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                     {category.products.flatMap(p => p.prices).length > 0 ? (
                       category.products.flatMap(product => product.prices.map(price => (
                         <tr key={price.id} className="hover:bg-gray-50">
-                          <td className="p-3"><button className="bg-blue-500 text-white px-3 py-1 rounded-md text-xs hover:bg-blue-600">مشاهده</button></td>
                           <td className="p-3 font-semibold">{product.name}</td>
                           <td className="p-3">{price.color || '-'}</td>
                           <td className="p-3">{price.storage || '-'}</td>
@@ -104,7 +96,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                       )))
                     ) : (
                       <tr>
-                        <td colSpan={6} className="p-4 text-center text-gray-500">
+                        <td colSpan={5} className="p-4 text-center text-gray-500">
                           محصولی برای نمایش در این دسته‌بندی وجود ندارد.
                         </td>
                       </tr>
