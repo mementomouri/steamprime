@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import type { Category, Product, Price } from "@prisma/client";
 
-// Note: The 'amount' property on PriceItem is now a string because of serialization
 type PriceItem = Omit<Price, 'amount'> & { amount: string, dimensions?: string | null };
 type ProductWithPrices = Omit<Product, 'prices'> & { prices: PriceItem[] };
 type CategoryWithProducts = Omit<Category, 'products'> & { products: ProductWithPrices[] };
@@ -41,7 +40,8 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
     <div className="max-w-7xl mx-auto p-4 pt-32">
       <div className="flex justify-between items-center my-6">
         <header>
-          <h1 className="text-2xl font-bold text-gray-800">آخرین قیمت های موبایل</h1>
+          {/* متن در اینجا تغییر کرد */}
+          <h1 className="text-2xl font-bold text-gray-800">با ما بروز باشید</h1>
         </header>
 
         <div className="relative">
