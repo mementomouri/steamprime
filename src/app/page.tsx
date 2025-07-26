@@ -38,21 +38,25 @@ export default async function HomePage() {
   return (
     <main className="w-full min-h-screen bg-gray-100">
       <div className="fixed top-4 left-1/2 -translate-x-1/2 z-10">
-        <div className="bg-white/50 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 px-8 py-3">
-          <div className="text-center">
-            <h1 className="text-3xl font-extrabold tracking-wider">
-              <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent">
-                MOBILE TIGER
-              </span>
-            </h1>
-            <p className="text-xs font-medium text-gray-600 tracking-widest uppercase mt-1">
-              راهنمای قیمت روز بازار
-            </p>
-          </div>
+        <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 px-9 py-5 text-center">
+          <h1 className="text-3xl font-bold text-blue-600 tracking-wider">
+            MOBILE TIGER
+          </h1>
+          <p className="text-sm font-bold text-blue-500 mt-1 tracking-wide">
+            لیست قیمت فروشگاه موبایل تایگر
+          </p>
         </div>
       </div>
-
       <PriceListClient initialData={serializableData} />
+      <footer className="w-full mt-12 py-8 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 text-center text-white text-base rounded-t-2xl shadow-xl">
+        <div className="mb-2 flex items-center justify-center gap-2">
+          <svg className="inline-block w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21c-4.418 0-8-5.373-8-10a8 8 0 1 1 16 0c0 4.627-3.582 10-8 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+          </svg>
+          <span>آدرس: تهران،خیابان سازمان برنامه شمالی پلاک 117</span>
+        </div>
+        <div className="opacity-90">تمام حقوق این وب سایت برای شرکت موبایل تایگر محفوظ است</div>
+      </footer>
     </main>
   );
 }
