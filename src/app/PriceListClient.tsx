@@ -13,16 +13,68 @@ interface PriceListClientProps {
 
 export default function PriceListClient({ initialData }: PriceListClientProps) {
   const [filteredData, setFilteredData] = useState(initialData);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setFilteredData(initialData);
   }, [initialData]);
 
+  // گوش دادن به رویدادهای جستجو
+  useEffect(() => {
+    const handleSearchResults = (event: CustomEvent) => {
+      const { filteredData: searchResults, isSearching: searching, searchTerm: term } = event.detail;
+      setFilteredData(searchResults);
+      setIsSearching(searching);
+      setSearchTerm(term);
+    };
+
+    window.addEventListener('searchResults', handleSearchResults as EventListener);
+
+    return () => {
+      window.removeEventListener('searchResults', handleSearchResults as EventListener);
+    };
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto p-2 sm:p-4 pt-8 sm:pt-12">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between my-4 sm:my-6 gap-2">
-
-      </div>
+      {/* نمایش وضعیت جستجو */}
+      {searchTerm && (
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-blue-800">نتایج جستجو برای "{searchTerm}"</h3>
+                <p className="text-sm text-blue-600">
+                  {filteredData.reduce((total, category) => total + category.products.length, 0)} محصول یافت شد
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setFilteredData(initialData);
+                // ارسال رویداد برای پاک کردن جستجو
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('searchResults', { 
+                    detail: { 
+                      filteredData: initialData, 
+                      isSearching: false,
+                      searchTerm: ''
+                    } 
+                  }));
+                }
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm"
+            >
+              پاک کردن جستجو
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4 sm:space-y-8">
         {filteredData.length > 0 ? (
@@ -54,7 +106,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                 <table className="min-w-full text-xs sm:text-sm text-center text-gray-800">
                    <thead className="bg-gray-200 text-gray-600 uppercase tracking-wider">
                       <tr>
-                        <th className="p-2 sm:p-3 text-center">گزینه</th>
+                        <th className="p-2 sm:p-3 text-right">گزینه</th>
                         <th className="p-2 sm:p-3 text-center">رنگ</th>
                         <th className="p-2 sm:p-3 text-center">حافظه</th>
                         <th className="p-2 sm:p-3 text-center">گارانتی</th>
@@ -65,7 +117,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                     {category.products.flatMap(p => p.prices).length > 0 ? (
                       category.products.flatMap(product => product.prices.map(price => (
                         <tr key={price.id} className="hover:bg-gray-50">
-                          <td className="p-2 sm:p-3 font-semibold text-xs sm:text-sm">{product.name}</td>
+                          <td className="p-2 sm:p-3 font-semibold text-xs sm:text-sm text-right">{product.name}</td>
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.color || '-'}</td>
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.storage || '-'}</td>
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.warranty || '-'}</td>
@@ -88,7 +140,15 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
           ))
         ) : (
           <div className="text-center py-10 bg-white rounded-lg shadow-md">
-            <p className="text-xl text-gray-600">هیچ محصولی با عبارت جستجو شده یافت نشد.</p>
+            <div className="flex flex-col items-center gap-4">
+              <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+              <div>
+                <p className="text-xl text-gray-600 font-semibold mb-2">نتیجه‌ای یافت نشد</p>
+                <p className="text-gray-500 text-sm">لطفاً عبارت جستجوی دیگری را امتحان کنید</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
