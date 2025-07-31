@@ -13,7 +13,6 @@ interface PriceListClientProps {
 
 export default function PriceListClient({ initialData }: PriceListClientProps) {
   const [filteredData, setFilteredData] = useState(initialData);
-  const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -23,9 +22,8 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
   // گوش دادن به رویدادهای جستجو
   useEffect(() => {
     const handleSearchResults = (event: CustomEvent) => {
-      const { filteredData: searchResults, isSearching: searching, searchTerm: term } = event.detail;
+      const { filteredData: searchResults, searchTerm: term } = event.detail;
       setFilteredData(searchResults);
-      setIsSearching(searching);
       setSearchTerm(term);
     };
 
@@ -47,7 +45,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
               </svg>
               <div>
-                <h3 className="text-lg font-semibold text-blue-800">نتایج جستجو برای "{searchTerm}"</h3>
+                <h3 className="text-lg font-semibold text-blue-800">نتایج جستجو برای &quot;{searchTerm}&quot;</h3>
                 <p className="text-sm text-blue-600">
                   {filteredData.reduce((total, category) => total + category.products.length, 0)} محصول یافت شد
                 </p>
@@ -62,7 +60,6 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                   window.dispatchEvent(new CustomEvent('searchResults', { 
                     detail: { 
                       filteredData: initialData, 
-                      isSearching: false,
                       searchTerm: ''
                     } 
                   }));

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import PriceListClient from "./PriceListClient";
 import SearchBar from "./SearchBar";
+import Image from "next/image";
 import type { Category, Product, Price } from "@prisma/client";
 
 export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
@@ -42,9 +43,11 @@ export default async function HomePage() {
       <header className="w-full bg-white/20 backdrop-blur-xl border-b border-white/30 shadow-lg">
         <div className="max-w-6xl mx-auto py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 px-4">
-            <img 
+            <Image 
               src="/logo.png" 
               alt="موبایل تایگر" 
+              width={32}
+              height={32}
               className="h-8 w-auto"
             />
             {/* سرچ‌بار جدید - مینیمال و آبی سفید */}
@@ -84,9 +87,11 @@ export default async function HomePage() {
             {/* اطلاعات شرکت */}
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center gap-4 mb-6">
-                <img 
+                <Image 
                   src="/logo.png" 
                   alt="موبایل تایگر" 
+                  width={48}
+                  height={48}
                   className="h-12 w-auto brightness-0 invert"
                 />
               </div>
