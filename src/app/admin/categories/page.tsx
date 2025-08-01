@@ -51,7 +51,40 @@ type CategoryWithCount = Category & {
   isActive: boolean;
 };
 
-const colorOptions = [ { name: 'Slate', class: 'bg-slate-700' }, { name: 'Gray', class: 'bg-gray-700' }, { name: 'Zinc', class: 'bg-zinc-700' }, { name: 'Stone', class: 'bg-stone-700' }, { name: 'Red', class: 'bg-red-700' }, { name: 'Rose', class: 'bg-rose-700' }, { name: 'Orange', class: 'bg-orange-700' }, { name: 'Amber', class: 'bg-amber-700' }, { name: 'Yellow', class: 'bg-yellow-600' }, { name: 'Lime', class: 'bg-lime-600' }, { name: 'Green', class: 'bg-green-700' }, { name: 'Emerald', class: 'bg-emerald-700' }, { name: 'Teal', class: 'bg-teal-700' }, { name: 'Cyan', class: 'bg-cyan-700' }, { name: 'Sky', class: 'bg-sky-700' }, { name: 'Blue', class: 'bg-blue-700' }, { name: 'Indigo', class: 'bg-indigo-700' }, { name: 'Violet', class: 'bg-violet-700' }, { name: 'Purple', class: 'bg-purple-700' }, { name: 'Fuchsia', class: 'bg-fuchsia-700' }, { name: 'Pink', class: 'bg-pink-700' }];
+const colorOptions = [ 
+  { name: 'White', class: 'bg-white' },
+  { name: 'Light Gray', class: 'bg-gray-400' },
+  { name: 'Samsung Blue', class: 'bg-blue-900' },
+  { name: 'Huawei Red', class: 'bg-red-600' },
+  { name: 'Realme Yellow', class: 'bg-yellow-500' },
+  { name: 'Motorola Blue', class: 'bg-blue-600' },
+  { name: 'Google Blue', class: 'bg-blue-500' },
+  { name: 'Nothing Black', class: 'bg-black' },
+  { name: 'Xiaomi Orange', class: 'bg-orange-500' },
+  { name: 'OnePlus Red', class: 'bg-red-700' },
+  { name: 'TabXiaomi Green', class: 'bg-green-600' },
+  { name: 'Slate', class: 'bg-slate-700' }, 
+  { name: 'Gray', class: 'bg-gray-700' }, 
+  { name: 'Zinc', class: 'bg-zinc-700' }, 
+  { name: 'Stone', class: 'bg-stone-700' }, 
+  { name: 'Red', class: 'bg-red-700' }, 
+  { name: 'Rose', class: 'bg-rose-700' }, 
+  { name: 'Orange', class: 'bg-orange-700' }, 
+  { name: 'Amber', class: 'bg-amber-700' }, 
+  { name: 'Yellow', class: 'bg-yellow-600' }, 
+  { name: 'Lime', class: 'bg-lime-600' }, 
+  { name: 'Green', class: 'bg-green-700' }, 
+  { name: 'Emerald', class: 'bg-emerald-700' }, 
+  { name: 'Teal', class: 'bg-teal-700' }, 
+  { name: 'Cyan', class: 'bg-cyan-700' }, 
+  { name: 'Sky', class: 'bg-sky-700' }, 
+  { name: 'Blue', class: 'bg-blue-700' }, 
+  { name: 'Indigo', class: 'bg-indigo-700' }, 
+  { name: 'Violet', class: 'bg-violet-700' }, 
+  { name: 'Purple', class: 'bg-purple-700' }, 
+  { name: 'Fuchsia', class: 'bg-fuchsia-700' }, 
+  { name: 'Pink', class: 'bg-pink-700' }
+];
 
 const SortableCategoryRow = ({ 
   category, 
@@ -88,11 +121,14 @@ const SortableCategoryRow = ({
       </TableCell>
       <TableCell className="font-bold">
         <div className="flex items-center gap-2">
-          <span className={cn(!category.isActive && "text-gray-400 line-through")}>
+          <span className={cn(
+            "text-lg font-semibold tracking-wide",
+            !category.isActive && "text-gray-400 line-through"
+          )}>
             {category.name}
           </span>
           {!category.isActive && (
-            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">
               غیرفعال
             </span>
           )}
@@ -100,18 +136,33 @@ const SortableCategoryRow = ({
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
-          <div className={`w-4 h-4 rounded-full border ${category.brandColor || 'bg-gray-200'}`} />
-          <span>{category.brandColor?.replace('bg-', '').replace('-700', '')}</span>
+          <div className={`w-4 h-4 rounded-full border ${category.brandColor || 'bg-gray-200'} ${category.brandColor === 'bg-white' ? 'border-gray-300' : ''} ${category.brandColor === 'bg-gray-400' ? 'border-gray-600' : ''} ${category.brandColor === 'bg-blue-900' ? 'border-blue-700' : ''} ${category.brandColor === 'bg-black' ? 'border-gray-600' : ''} ${category.brandColor === 'bg-red-600' ? 'border-red-800' : ''} ${category.brandColor === 'bg-yellow-500' ? 'border-yellow-700' : ''} ${category.brandColor === 'bg-blue-600' ? 'border-blue-800' : ''} ${category.brandColor === 'bg-blue-500' ? 'border-blue-700' : ''} ${category.brandColor === 'bg-orange-500' ? 'border-orange-700' : ''} ${category.brandColor === 'bg-red-700' ? 'border-red-900' : ''} ${category.brandColor === 'bg-green-600' ? 'border-green-800' : ''}`} />
+          <span className="font-medium text-gray-700">{category.brandColor?.replace('bg-', '').replace('-700', '').replace('-600', '').replace('-500', '').replace('-400', '').replace('-200', '').replace('-900', '').replace('-800', '') || 'بدون رنگ'}</span>
         </div>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">
+          <span className="text-sm font-medium text-gray-600">
             {category._count?.products || 0} محصول
           </span>
         </div>
       </TableCell>
-      <TableCell>{new Date(category.updatedAt).toLocaleDateString('fa-IR')}</TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-2 shadow-sm">
+            <div className="text-xs text-blue-600 font-semibold mb-1 tracking-wide">آخرین بروزرسانی</div>
+            <div className="text-sm font-bold text-gray-800">
+              {new Date(category.updatedAt).toLocaleDateString('fa-IR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </div>
+          </div>
+        </div>
+      </TableCell>
       <TableCell className="text-right">
         <div className="flex items-center gap-2">
           <Button
@@ -119,7 +170,7 @@ const SortableCategoryRow = ({
             variant={category.isActive ? "default" : "outline"}
             onClick={() => onToggle(category.id)}
             className={cn(
-              "transition-all duration-200",
+              "transition-all duration-200 font-medium",
               category.isActive 
                 ? "bg-green-600 hover:bg-green-700 text-white" 
                 : "bg-gray-100 hover:bg-gray-200 text-gray-700"
@@ -290,23 +341,46 @@ export default function CategoriesPage() {
     }
   };
 
-  if (isLoading) return <div className="p-8 text-center">در حال بارگذاری...</div>;
+  if (isLoading) return (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-lg font-medium text-gray-600">در حال بارگذاری...</p>
+      </div>
+    </div>
+  );
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-extrabold md:text-2xl text-gray-900">مدیریت دسته‌بندی‌ها</h1>
-        <Button onClick={handleAddNewClick}>افزودن دسته‌بندی</Button>
+    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 tracking-wide">
+            مدیریت دسته‌بندی‌ها
+          </h1>
+          <p className="text-gray-600 font-medium">
+            مدیریت و سازماندهی دسته‌بندی‌های محصولات
+          </p>
+        </div>
+        <Button 
+          onClick={handleAddNewClick}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 text-lg"
+        >
+          افزودن دسته‌بندی
+        </Button>
       </div>
 
-      <Card className="mt-4">
-        <CardHeader>
-          <CardTitle>لیست دسته‌بندی‌ها</CardTitle>
-          <CardDescription>
+      {/* Main Content */}
+      <Card className="shadow-lg border-0 bg-white">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200">
+          <CardTitle className="text-xl font-bold text-gray-900 tracking-wide">
+            لیست دسته‌بندی‌ها
+          </CardTitle>
+          <CardDescription className="text-gray-600 font-medium leading-relaxed">
             دسته‌بندی‌ها را با drag and drop مرتب کنید و وضعیت فعال/غیرفعال آنها را مدیریت کنید.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -315,13 +389,13 @@ export default function CategoriesPage() {
           >
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead>نام دسته‌بندی</TableHead>
-                  <TableHead>رنگ</TableHead>
-                  <TableHead>تعداد محصولات</TableHead>
-                  <TableHead>آخرین بروزرسانی</TableHead>
-                  <TableHead className="text-right">عملیات</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-gray-50">
+                  <TableHead className="w-12 text-center font-bold text-gray-700"></TableHead>
+                  <TableHead className="font-bold text-gray-700 text-lg">نام دسته‌بندی</TableHead>
+                  <TableHead className="font-bold text-gray-700 text-lg">رنگ</TableHead>
+                  <TableHead className="font-bold text-gray-700 text-lg">تعداد محصولات</TableHead>
+                  <TableHead className="font-bold text-gray-700 text-lg">آخرین بروزرسانی</TableHead>
+                  <TableHead className="text-right font-bold text-gray-700 text-lg">عملیات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -343,36 +417,41 @@ export default function CategoriesPage() {
       </Card>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-xl font-bold text-gray-900 tracking-wide">
               {editingCategory ? 'ویرایش دسته‌بندی' : 'افزودن دسته‌بندی جدید'}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleFormSubmit} className="space-y-4">
+          <form onSubmit={handleFormSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="name">نام دسته‌بندی</Label>
+              <Label htmlFor="name" className="text-base font-semibold text-gray-700 mb-2 block">
+                نام دسته‌بندی
+              </Label>
               <Input
                 id="name"
                 name="name"
                 defaultValue={editingCategory?.name || ''}
                 placeholder="نام دسته‌بندی را وارد کنید"
                 required
+                className="text-lg p-3 border-2 focus:border-blue-500"
               />
             </div>
             <div>
-              <Label>رنگ دسته‌بندی</Label>
-              <div className="grid grid-cols-6 gap-2 mt-2">
+              <Label className="text-base font-semibold text-gray-700 mb-3 block">
+                رنگ دسته‌بندی
+              </Label>
+              <div className="grid grid-cols-6 gap-3">
                 {colorOptions.map((color) => (
                   <button
                     key={color.name}
                     type="button"
                     className={cn(
-                      "w-8 h-8 rounded-full border-2 transition-all",
+                      "w-10 h-10 rounded-full border-2 transition-all duration-200",
                       color.class,
                       selectedColor === color.class
-                        ? "border-black scale-110"
-                        : "border-gray-300 hover:scale-105"
+                        ? "border-gray-800 scale-110 shadow-lg"
+                        : "border-gray-500 hover:scale-105 hover:shadow-md"
                     )}
                     onClick={() => setSelectedColor(color.class)}
                     title={color.name}
@@ -380,17 +459,19 @@ export default function CategoriesPage() {
                 ))}
               </div>
             </div>
-            <DialogFooter>
+            <DialogFooter className="gap-3">
               <DialogClose asChild>
-                <Button type="button" variant="outline">لغو</Button>
+                <Button type="button" variant="outline" className="font-medium">
+                  لغو
+                </Button>
               </DialogClose>
-              <Button type="submit">
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700 font-semibold">
                 {editingCategory ? 'ویرایش' : 'افزودن'}
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
