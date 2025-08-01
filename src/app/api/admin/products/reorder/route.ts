@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }
 
     // بررسی تکراری نبودن ID ها
-    const uniqueIds = [...new Set(orderedIds)];
+    const uniqueIds = orderedIds.filter((id, index) => orderedIds.indexOf(id) === index);
     if (uniqueIds.length !== orderedIds.length) {
       return new NextResponse('Duplicate product IDs', { status: 400 });
     }

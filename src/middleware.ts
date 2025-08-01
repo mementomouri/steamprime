@@ -27,7 +27,7 @@ function checkRateLimit(ip: string): boolean {
 
 export default withAuth(
   function middleware(req) {
-    const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
     
     // Rate limiting
     if (!checkRateLimit(ip)) {

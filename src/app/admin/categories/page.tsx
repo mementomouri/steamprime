@@ -43,6 +43,14 @@ import type { Category } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import toast from 'react-hot-toast';
 
+// تعریف نوع جدید برای Category با فیلد _count
+type CategoryWithCount = Category & {
+  _count?: {
+    products: number;
+  };
+  isActive: boolean;
+};
+
 const colorOptions = [ { name: 'Slate', class: 'bg-slate-700' }, { name: 'Gray', class: 'bg-gray-700' }, { name: 'Zinc', class: 'bg-zinc-700' }, { name: 'Stone', class: 'bg-stone-700' }, { name: 'Red', class: 'bg-red-700' }, { name: 'Rose', class: 'bg-rose-700' }, { name: 'Orange', class: 'bg-orange-700' }, { name: 'Amber', class: 'bg-amber-700' }, { name: 'Yellow', class: 'bg-yellow-600' }, { name: 'Lime', class: 'bg-lime-600' }, { name: 'Green', class: 'bg-green-700' }, { name: 'Emerald', class: 'bg-emerald-700' }, { name: 'Teal', class: 'bg-teal-700' }, { name: 'Cyan', class: 'bg-cyan-700' }, { name: 'Sky', class: 'bg-sky-700' }, { name: 'Blue', class: 'bg-blue-700' }, { name: 'Indigo', class: 'bg-indigo-700' }, { name: 'Violet', class: 'bg-violet-700' }, { name: 'Purple', class: 'bg-purple-700' }, { name: 'Fuchsia', class: 'bg-fuchsia-700' }, { name: 'Pink', class: 'bg-pink-700' }];
 
 const SortableCategoryRow = ({ 
@@ -51,7 +59,7 @@ const SortableCategoryRow = ({
   onDelete, 
   onToggle 
 }: { 
-  category: Category, 
+  category: CategoryWithCount, 
   onEdit: (cat: Category) => void, 
   onDelete: (id: number) => void,
   onToggle: (id: number) => void
@@ -145,7 +153,7 @@ const SortableCategoryRow = ({
 };
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryWithCount[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
