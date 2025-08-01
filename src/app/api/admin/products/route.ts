@@ -1,13 +1,24 @@
 import { NextResponse } from 'next/server';
-import {prisma} from '@/lib/prisma'; // <-- اصلاح شد
+import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export async function GET() {
   try {
+    // بررسی احراز هویت
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
     const categories = await prisma.category.findMany({
+      where: {
+        isActive: true // فقط دسته‌بندی‌های فعال
+      },
       orderBy: { position: 'asc' },
       include: {
         products: {
-          orderBy: { name: 'asc' },
+          orderBy: { position: 'asc' },
           include: {
             prices: {
               orderBy: { createdAt: 'desc' },
@@ -16,7 +27,14 @@ export async function GET() {
         },
       },
     });
-    return NextResponse.json(categories);
+
+    return NextResponse.json(categories, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (error) {
     console.error("Error fetching data:", error);
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
@@ -29,24 +47,72 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    // بررسی احراز هویت
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
     const body = await request.json();
     const { name, description, categoryId, amount, color, storage, warranty, label } = body;
 
+    // اعتبارسنجی داده‌های ورودی
     if (!name || !categoryId || !amount) {
-      return new NextResponse(JSON.stringify({ message: "Name, categoryId, and amount are required" }), { status: 400 });
+      return new NextResponse(
+        JSON.stringify({ message: "Name, categoryId, and amount are required" }), 
+        { status: 400 }
+      );
+    }
+
+    // بررسی وجود دسته‌بندی
+    const category = await prisma.category.findUnique({
+      where: { id: Number(categoryId) },
+    });
+
+    if (!category) {
+      return new NextResponse(
+        JSON.stringify({ message: "Category not found" }), 
+        { status: 404 }
+      );
+    }
+
+    // بررسی اعتبار قیمت
+    if (isNaN(Number(amount)) || Number(amount) <= 0) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid amount" }), 
+        { status: 400 }
+      );
     }
 
     const result = await prisma.$transaction(async (tx) => {
+      // ایجاد محصول جدید
       const newProduct = await tx.product.create({
-        data: { name, description: description || null, categoryId: Number(categoryId) },
+        data: { 
+          name: name.trim(), 
+          description: description?.trim() || null, 
+          categoryId: Number(categoryId),
+          position: 0, // موقعیت پیش‌فرض
+        },
       });
+
+      // ایجاد قیمت برای محصول
       await tx.price.create({
-        data: { amount: Number(amount), productId: newProduct.id, color: color || null, storage: storage || null, warranty: warranty || null, label: label || 'اصلی' },
+        data: { 
+          amount: Number(amount), 
+          productId: newProduct.id, 
+          color: color?.trim() || null, 
+          storage: storage?.trim() || null, 
+          warranty: warranty?.trim() || null, 
+          label: label?.trim() || 'اصلی' 
+        },
       });
+
+      // به‌روزرسانی زمان دسته‌بندی
       await tx.category.update({
         where: { id: Number(categoryId) },
         data: { updatedAt: new Date() },
       });
+
       return newProduct;
     });
 

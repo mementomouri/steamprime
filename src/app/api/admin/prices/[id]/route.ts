@@ -2,9 +2,14 @@ import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // تابع برای ویرایش (Update) یک قیمت
-export async function PUT(request: NextRequest) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const priceId = Number(request.url.split('/').pop());
+    const { id } = await params;
+    const priceId = Number(id);
+    
     if (isNaN(priceId)) {
       return new NextResponse("Invalid Price ID", { status: 400 });
     }
@@ -39,9 +44,14 @@ export async function PUT(request: NextRequest) {
 }
 
 // تابع برای حذف یک قیمت
-export async function DELETE(request: NextRequest) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const priceId = Number(request.url.split('/').pop());
+    const { id } = await params;
+    const priceId = Number(id);
+    
     if (isNaN(priceId)) {
       return new NextResponse("Invalid Price ID", { status: 400 });
     }

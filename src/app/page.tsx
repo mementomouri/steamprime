@@ -13,12 +13,15 @@ type SerializableCategory = Omit<Category, 'products'> & { products: Serializabl
 
 export default async function HomePage() {
   const categoriesWithProducts = await prisma.category.findMany({
+    where: {
+      isActive: true // فقط دسته‌بندی‌های فعال
+    },
     include: {
       products: {
         include: {
           prices: { orderBy: { createdAt: 'desc' } },
         },
-        orderBy: { name: 'asc' },
+        orderBy: { position: 'asc' },
       },
     },
     orderBy: { position: 'asc' },

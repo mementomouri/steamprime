@@ -2,10 +2,14 @@ import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // تابع برای ویرایش (Update) یک دسته‌بندی
-export async function PUT(request: NextRequest) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    // ID را مستقیماً از URL استخراج می‌کنیم
-    const categoryId = Number(request.url.split('/').pop());
+    const { id } = await params;
+    const categoryId = Number(id);
+    
     if (isNaN(categoryId)) {
       return new NextResponse("Invalid Category ID", { status: 400 });
     }
@@ -30,10 +34,14 @@ export async function PUT(request: NextRequest) {
 }
 
 // تابع برای حذف یک دسته‌بندی
-export async function DELETE(request: NextRequest) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    // ID را مستقیماً از URL استخراج می‌کنیم
-    const categoryId = Number(request.url.split('/').pop());
+    const { id } = await params;
+    const categoryId = Number(id);
+    
     if (isNaN(categoryId)) {
       return new NextResponse("Invalid Category ID", { status: 400 });
     }
