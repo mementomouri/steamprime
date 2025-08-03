@@ -31,6 +31,8 @@ type PriceWithDetails = Price & { dimensions?: string | null };
 type ProductWithPrices = Product & { prices: PriceWithDetails[] };
 type CategoryWithProducts = Category & { products: ProductWithPrices[] };
 
+
+
 // کامپوننت بهینه شده برای نمایش محصول
 const SortableProductRow = ({ 
   product, 
@@ -56,22 +58,11 @@ const SortableProductRow = ({
     opacity: isDragging ? 0.5 : 1,
   };
 
-  // بهینه‌سازی: محاسبه قیمت‌ها فقط یک بار
-  const priceDisplay = useMemo(() => {
-    if (product.prices.length === 0) {
-      return { hasPrices: false, mainPrice: null, allPrices: [] };
-    }
-
-    const mainPrice = product.prices[0];
-    const allPrices = product.prices.map(price => ({
-      id: price.id,
-      label: price.label || 'اصلی',
-      amount: price.amount ? new Intl.NumberFormat('fa-IR').format(Number(price.amount)) : '---',
-      dimensions: price.dimensions || '-'
-    }));
-
-    return { hasPrices: true, mainPrice, allPrices };
-  }, [product.prices]);
+     // بهینه‌سازی: محاسبه قیمت اصلی فقط یک بار
+   const mainPrice = useMemo(() => 
+     product.prices[0] || null, 
+     [product.prices]
+   );
 
   return (
     <TableRow ref={setNodeRef} style={style} {...attributes} data-state={isDragging ? "dragging" : undefined}>
@@ -80,46 +71,19 @@ const SortableProductRow = ({
           <GripVertical className="h-5 w-5 text-gray-400" />
         </div>
       </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
-      <TableCell>
-        {priceDisplay.hasPrices ? (
-          <div className="space-y-1">
-            {priceDisplay.allPrices.map((price) => (
-              <div key={price.id} className="text-sm">
-                {price.label}: {price.amount} تومان
-              </div>
-            ))}
-          </div>
-        ) : (
-          <span className="text-gray-400">قیمت‌گذاری نشده</span>
-        )}
-      </TableCell>
-      <TableCell>
-        {priceDisplay.hasPrices ? (
-          <div className="space-y-1">
-            {priceDisplay.allPrices.map((price) => (
-              <div key={price.id} className="text-sm">
-                {price.dimensions}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <span className="text-gray-400">-</span>
-        )}
-      </TableCell>
-      <TableCell>
-        {priceDisplay.hasPrices ? (
-          <div className="space-y-1">
-            {priceDisplay.allPrices.map((price) => (
-              <div key={price.id} className="text-sm font-bold">
-                {price.amount}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <span className="text-gray-400">---</span>
-        )}
-      </TableCell>
+             <TableCell className="font-medium text-right">{product.name}</TableCell>
+       <TableCell className="text-sm text-right">
+         {mainPrice?.color || <span className="text-gray-400">-</span>}
+       </TableCell>
+       <TableCell className="text-sm text-right">
+         {mainPrice?.storage || <span className="text-gray-400">-</span>}
+       </TableCell>
+       <TableCell className="text-sm font-bold text-right">
+         {mainPrice?.amount ? 
+           new Intl.NumberFormat('fa-IR').format(Number(mainPrice.amount)) : 
+           <span className="text-gray-400">---</span>
+         }
+       </TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,20 +91,20 @@ const SortableProductRow = ({
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => onEdit(product, priceDisplay.mainPrice || null)}>
-              ویرایش
-            </DropdownMenuItem>
-            {priceDisplay.hasPrices && (
-              <DropdownMenuItem 
-                onClick={() => onDelete(priceDisplay.mainPrice?.id || 0)} 
-                className="text-red-600"
-              >
-                حذف
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
+                     <DropdownMenuContent align="end">
+             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+             <DropdownMenuItem onClick={() => onEdit(product, mainPrice)}>
+               ویرایش
+             </DropdownMenuItem>
+             {mainPrice && (
+               <DropdownMenuItem 
+                 onClick={() => onDelete(mainPrice.id)} 
+                 className="text-red-600"
+               >
+                 حذف
+               </DropdownMenuItem>
+             )}
+           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
     </TableRow>
@@ -449,16 +413,16 @@ export default function DashboardPage() {
                 <AccordionContent className="p-2">
                   <div className="rounded-lg border shadow-sm">
                     <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="w-12"></TableHead>
-                          <TableHead>نام محصول</TableHead>
-                          <TableHead>برچسب قیمت</TableHead>
-                          <TableHead>ابعاد</TableHead>
-                          <TableHead className="text-right">قیمت (تومان)</TableHead>
-                          <TableHead><span className="sr-only">عملیات</span></TableHead>
-                        </TableRow>
-                      </TableHeader>
+                                             <TableHeader>
+                         <TableRow>
+                           <TableHead className="w-12"></TableHead>
+                           <TableHead className="text-right">نام محصول</TableHead>
+                           <TableHead className="text-right">رنگ</TableHead>
+                           <TableHead className="text-right">حافظه</TableHead>
+                           <TableHead className="text-right">قیمت (تومان)</TableHead>
+                           <TableHead><span className="sr-only">عملیات</span></TableHead>
+                         </TableRow>
+                       </TableHeader>
                       <TableBody>
                         {category.products.length > 0 ? (
                           <SortableContext 
