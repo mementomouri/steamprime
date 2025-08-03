@@ -38,7 +38,7 @@ const SortableProductRow = ({
   onDelete 
 }: { 
   product: ProductWithPrices, 
-  onEdit: (product: Product, price: PriceWithDetails) => void, 
+  onEdit: (product: Product, price: PriceWithDetails | null) => void, 
   onDelete: (priceId: number) => void 
 }) => {
   const {
@@ -129,17 +129,17 @@ const SortableProductRow = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => onEdit(product, priceDisplay.mainPrice || null)}>
+              ویرایش
+            </DropdownMenuItem>
             {priceDisplay.hasPrices && (
-              <DropdownMenuItem onClick={() => onEdit(product, priceDisplay.mainPrice!)}>
-                ویرایش
+              <DropdownMenuItem 
+                onClick={() => onDelete(priceDisplay.mainPrice?.id || 0)} 
+                className="text-red-600"
+              >
+                حذف
               </DropdownMenuItem>
             )}
-            <DropdownMenuItem 
-              onClick={() => onDelete(priceDisplay.mainPrice?.id || 0)} 
-              className="text-red-600"
-            >
-              حذف
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -339,8 +339,26 @@ export default function DashboardPage() {
     });
   };
   
-  const handleEditClick = (product: Product, price: PriceWithDetails) => {
-    setEditingItem({ product, price });
+  const handleEditClick = (product: Product, price: PriceWithDetails | null) => {
+    if (price) {
+      setEditingItem({ product, price });
+    } else {
+      // اگر قیمت وجود ندارد، یک قیمت dummy ایجاد می‌کنیم
+             setEditingItem({ 
+         product, 
+         price: { 
+           id: 0, 
+           amount: 0 as unknown as Price['amount'], 
+           createdAt: new Date(), 
+           productId: product.id, 
+           color: null, 
+           storage: null, 
+           warranty: null, 
+           label: null, 
+           dimensions: null 
+         } 
+       });
+    }
     setIsDialogOpen(true);
   };
 

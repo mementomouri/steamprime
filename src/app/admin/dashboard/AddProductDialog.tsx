@@ -65,11 +65,22 @@ export function AddProductDialog({ onProductAdded, open, onOpenChange, editableI
             }
             if (isEditMode) {
                 const submitData = { ...data, productId: editableItem.product.id, categoryId: selectedCategoryObject.id };
-                response = await fetch(`/api/admin/prices/${editableItem.price.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(submitData),
-                });
+                
+                // اگر محصول قیمت ندارد، یک قیمت جدید ایجاد می‌کنیم
+                if (editableItem.price.id === 0) {
+                    response = await fetch('/api/admin/products/add-price', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(submitData),
+                    });
+                } else {
+                    // اگر قیمت وجود دارد، آن را ویرایش می‌کنیم
+                    response = await fetch(`/api/admin/prices/${editableItem.price.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(submitData),
+                    });
+                }
             } else {
                 const submitData = { ...data, categoryId: selectedCategoryObject.id };
                 response = await fetch('/api/admin/products', {
@@ -94,7 +105,7 @@ export function AddProductDialog({ onProductAdded, open, onOpenChange, editableI
     });
     toast.promise(promise, {
         loading: 'در حال ذخیره...',
-        success: `آیتم با موفقیت ${isEditMode ? 'ویرایش' : 'افزوده'} شد!`,
+        success: isEditMode && editableItem.price.id === 0 ? 'قیمت با موفقیت به محصول اضافه شد!' : `آیتم با موفقیت ${isEditMode ? 'ویرایش' : 'افزوده'} شد!`,
         error: (err) => err.message,
     });
   };
@@ -103,9 +114,9 @@ export function AddProductDialog({ onProductAdded, open, onOpenChange, editableI
     <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>{isEditMode ? 'ویرایش محصول و قیمت' : 'افزودن محصول و قیمت'}</DialogTitle>
+                <DialogTitle>{isEditMode ? (editableItem.price.id === 0 ? 'افزودن قیمت به محصول' : 'ویرایش محصول و قیمت') : 'افزودن محصول و قیمت'}</DialogTitle>
                 <DialogDescription>
-                    {isEditMode ? 'اطلاعات محصول را ویرایش کنید.' : 'ابتدا دسته‌بندی را انتخاب و سپس اطلاعات محصول را وارد کنید.'}
+                    {isEditMode ? (editableItem.price.id === 0 ? 'قیمت و اطلاعات محصول را وارد کنید.' : 'اطلاعات محصول را ویرایش کنید.') : 'ابتدا دسته‌بندی را انتخاب و سپس اطلاعات محصول را وارد کنید.'}
                 </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} id="product-form">
@@ -179,7 +190,7 @@ export function AddProductDialog({ onProductAdded, open, onOpenChange, editableI
             </form>
             <DialogFooter>
                 <Button type="submit" form="product-form" disabled={isSubmitting}>
-                    {isSubmitting ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
+                    {isSubmitting ? 'در حال ذخیره...' : (isEditMode && editableItem.price.id === 0 ? 'افزودن قیمت' : 'ذخیره تغییرات')}
                 </Button>
             </DialogFooter>
         </DialogContent>
