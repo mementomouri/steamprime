@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
+import localFont from 'next/font/local';
 import "./globals.css";
 import Providers from "./providers";
+
+// تعریف فونت سفارشی با Next.js
+const byekanBold = localFont({
+  src: '../assets/fonts/B Yekan+ Bold.woff2',
+  variable: '--font-byekan-bold',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Mobile Tiger",
@@ -14,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="font-sans">
+      <body className={`font-sans ${byekanBold.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

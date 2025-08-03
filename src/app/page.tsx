@@ -159,21 +159,15 @@ export default async function HomePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   <div>
-                    <span className="text-base font-semibold text-green-200 block mb-1">تلفن مدیریت:</span>
-                    <span className="text-base text-green-100">0912-493-61-46</span>
+                    <span className="text-base font-semibold text-green-200 block mb-1">مدیریت: سید مهراد سیدعلیخانی</span>
+                    <div className="space-y-1">
+                      <div className="text-base text-green-100">0912-493-61-46</div>
+                      <div className="text-base text-green-100">0912-124-04-65</div>
+                    </div>
                   </div>
                 </div>
 
-                {/* شماره اضطراری */}
-                <div className="flex items-start gap-4 text-red-100 bg-red-500/10 rounded-xl p-4 border border-red-400/20">
-                  <svg className="w-6 h-6 text-red-200 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <div>
-                    <span className="text-base font-semibold text-red-200 block mb-1">شماره اضطراری:</span>
-                    <span className="text-base text-red-100">0912-124-04-65</span>
-                  </div>
-                </div>
+
               </div>
             </div>
 
@@ -224,39 +218,39 @@ export default async function HomePage() {
 
             {/* نحوه ثبت سفارش */}
             <div className="space-y-6">
-              <h4 className="text-xl font-bold mb-6 flex items-center gap-3 text-red-400">
-                <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <h4 className="text-xl font-bold mb-6 flex items-center gap-3 text-green-400">
+                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 نحوه ثبت سفارش
               </h4>
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
+                <div className="flex items-start gap-4 text-green-100 bg-white/5 rounded-xl p-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">1</div>
                   <div>
                     <span className="text-lg font-bold text-green-400 block mb-2">انتخاب محصول</span>
-                    <p className="text-base text-blue-100">محصول مورد نظر خود را از لیست قیمت انتخاب کنید</p>
+                    <p className="text-base text-green-100">محصول مورد نظر خود را از لیست قیمت انتخاب کنید</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
+                <div className="flex items-start gap-4 text-green-100 bg-white/5 rounded-xl p-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">2</div>
                   <div>
                     <span className="text-lg font-bold text-green-400 block mb-2">تماس با ما</span>
-                    <p className="text-base text-blue-100">از طریق شماره‌های تماس یا شبکه‌های اجتماعی با ما در ارتباط باشید</p>
+                    <p className="text-base text-green-100">از طریق شماره‌های تماس یا شبکه‌های اجتماعی با ما در ارتباط باشید</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
+                <div className="flex items-start gap-4 text-green-100 bg-white/5 rounded-xl p-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">3</div>
                   <div>
                     <span className="text-lg font-bold text-green-400 block mb-2">تایید سفارش</span>
-                    <p className="text-base text-blue-100">پس از تایید قیمت و موجودی، سفارش شما ثبت می‌شود</p>
+                    <p className="text-base text-green-100">پس از تایید قیمت و موجودی، سفارش شما ثبت می‌شود</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
+                <div className="flex items-start gap-4 text-green-100 bg-white/5 rounded-xl p-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">4</div>
                   <div>
                     <span className="text-lg font-bold text-green-400 block mb-2">تحویل</span>
-                    <p className="text-base text-blue-100">محصول در کمترین زمان ممکن به شما تحویل داده می‌شود</p>
+                    <p className="text-base text-green-100">محصول در کمترین زمان ممکن به شما تحویل داده می‌شود</p>
                   </div>
                 </div>
               </div>
