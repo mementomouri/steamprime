@@ -118,7 +118,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.color || '-'}</td>
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.storage || '-'}</td>
                           <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.warranty || '-'}</td>
-                          <td className="p-2 sm:p-3 font-bold text-red-600 text-sm sm:text-base">
+                          <td className="p-2 sm:p-3 font-bold text-black text-sm sm:text-base">
                             {price.amount ? new Intl.NumberFormat('fa-IR').format(Number(price.amount)) : '---'}
                           </td>
                         </tr>

@@ -126,3 +126,67 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    // بررسی احراز هویت
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const productId = searchParams.get('productId');
+
+    if (!productId || isNaN(Number(productId))) {
+      return new NextResponse(
+        JSON.stringify({ message: "Valid productId is required" }), 
+        { status: 400 }
+      );
+    }
+
+    // بررسی وجود محصول
+    const product = await prisma.product.findUnique({
+      where: { id: Number(productId) },
+      include: { prices: true }
+    });
+
+    if (!product) {
+      return new NextResponse(
+        JSON.stringify({ message: "Product not found" }), 
+        { status: 404 }
+      );
+    }
+
+    // حذف محصول و تمام قیمت‌های مربوط به آن
+    await prisma.$transaction(async (tx) => {
+      // حذف تمام قیمت‌های محصول
+      await tx.price.deleteMany({
+        where: { productId: Number(productId) }
+      });
+
+      // حذف محصول
+      await tx.product.delete({
+        where: { id: Number(productId) }
+      });
+
+      // به‌روزرسانی زمان دسته‌بندی
+      await tx.category.update({
+        where: { id: product.categoryId },
+        data: { updatedAt: new Date() },
+      });
+    });
+
+    return new NextResponse(
+      JSON.stringify({ message: "Product deleted successfully" }), 
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return new NextResponse(
+      JSON.stringify({ message: "Error deleting product", details: errorMessage }),
+      { status: 500 }
+    );
+  }
+}

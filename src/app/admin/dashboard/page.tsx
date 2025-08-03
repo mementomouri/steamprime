@@ -37,11 +37,13 @@ type CategoryWithProducts = Category & { products: ProductWithPrices[] };
 const SortableProductRow = ({ 
   product, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onDeleteProduct
 }: { 
   product: ProductWithPrices, 
   onEdit: (product: Product, price: PriceWithDetails | null) => void, 
-  onDelete: (priceId: number) => void 
+  onDelete: (priceId: number) => void,
+  onDeleteProduct: (productId: number) => void
 }) => {
   const {
     attributes,
@@ -101,9 +103,15 @@ const SortableProductRow = ({
                  onClick={() => onDelete(mainPrice.id)} 
                  className="text-red-600"
                >
-                 حذف
+                 حذف قیمت
                </DropdownMenuItem>
              )}
+             <DropdownMenuItem 
+               onClick={() => onDeleteProduct(product.id)} 
+               className="text-red-700 font-bold"
+             >
+               حذف کامل محصول
+             </DropdownMenuItem>
            </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -302,6 +310,45 @@ export default function DashboardPage() {
       error: (err) => err.message === "Operation cancelled" ? "عملیات لغو شد." : err.message,
     });
   };
+
+  const handleDeleteProduct = async (productId: number) => {
+    if (!productId || productId <= 0) {
+      toast.error('شناسه محصول نامعتبر است');
+      return;
+    }
+
+    const promise = new Promise<void>(async (resolve, reject) => {
+      if (window.confirm('آیا از حذف کامل این محصول مطمئن هستید؟ این عملیات غیرقابل بازگشت است و تمام قیمت‌های مربوط به آن نیز حذف خواهد شد.')) {
+        try {
+          const response = await fetch(`/api/admin/products?productId=${productId}`, { 
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            reject(new Error(errorData.details || 'خطا در حذف محصول'));
+            return;
+          }
+          
+          fetchItems();
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      } else {
+        reject(new Error("Operation cancelled"));
+      }
+    });
+
+    toast.promise(promise, {
+      loading: 'در حال حذف محصول...',
+      success: 'محصول با موفقیت حذف شد!',
+      error: (err) => err.message === "Operation cancelled" ? "عملیات لغو شد." : err.message,
+    });
+  };
   
   const handleEditClick = (product: Product, price: PriceWithDetails | null) => {
     if (price) {
@@ -435,6 +482,7 @@ export default function DashboardPage() {
                                 product={product}
                                 onEdit={handleEditClick}
                                 onDelete={handleDeletePrice}
+                                onDeleteProduct={handleDeleteProduct}
                               />
                             ))}
                           </SortableContext>

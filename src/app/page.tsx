@@ -137,18 +137,12 @@ export default async function HomePage() {
                   </svg>
                   <div>
                     <span className="text-base font-semibold text-white block mb-1">آدرس:</span>
-                    <span className="text-base">تهران، خیابان سازمان برنامه شمالی پلاک 117</span>
+                    <a href="https://maps.app.goo.gl/vunTs72bjw8GZvJs6" target="_blank" rel="noopener noreferrer" className="text-base hover:text-blue-300 transition-colors duration-200">
+                      تهران-غرب-خیابان آیت الله کاشانی-خیابان سازمان برنامه شمالی پلاک117 موبایل تایگر
+                    </a>
                   </div>
                 </div>
-                <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
-                  <svg className="w-6 h-6 text-blue-200 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <div>
-                    <span className="text-base font-semibold text-white block mb-1">تلفن:</span>
-                    <span className="text-base">09124936146</span>
-                  </div>
-                </div>
+
                 <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
                   <svg className="w-6 h-6 text-blue-200 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -156,6 +150,28 @@ export default async function HomePage() {
                   <div>
                     <span className="text-base font-semibold text-white block mb-1">ایمیل:</span>
                     <span className="text-base">mehrad.tigerm@yahoo.com</span>
+                  </div>
+                </div>
+
+                {/* تلفن مدیریت */}
+                <div className="flex items-start gap-4 text-green-100 bg-green-500/10 rounded-xl p-4 border border-green-400/20">
+                  <svg className="w-6 h-6 text-green-200 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <div>
+                    <span className="text-base font-semibold text-green-200 block mb-1">تلفن مدیریت:</span>
+                    <span className="text-base text-green-100">0912-493-61-46</span>
+                  </div>
+                </div>
+
+                {/* شماره اضطراری */}
+                <div className="flex items-start gap-4 text-red-100 bg-red-500/10 rounded-xl p-4 border border-red-400/20">
+                  <svg className="w-6 h-6 text-red-200 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <div>
+                    <span className="text-base font-semibold text-red-200 block mb-1">شماره اضطراری:</span>
+                    <span className="text-base text-red-100">0912-124-04-65</span>
                   </div>
                 </div>
               </div>
@@ -186,6 +202,14 @@ export default async function HomePage() {
                   <span className="text-sm font-semibold text-white">واتساپ</span>
                 </a>
 
+                {/* تلفن */}
+                <a href="tel:09121240465" className="flex flex-col items-center justify-center bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <svg className="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="text-sm font-semibold text-white">تلفن</span>
+                </a>
+
                 {/* تلگرام */}
                 <a href="https://t.me/mehrad_tiger" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
                   <svg className="w-8 h-8 text-white mb-2" fill="currentColor" viewBox="0 0 24 24">
@@ -194,66 +218,44 @@ export default async function HomePage() {
                   <span className="text-sm font-semibold text-white">تلگرام</span>
                 </a>
 
-                {/* تلفن */}
-                <a href="tel:09124936146" className="flex flex-col items-center justify-center bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
-                  <svg className="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <span className="text-sm font-semibold text-white">تلفن</span>
-                </a>
-              </div>
-              
-              {/* شماره اضطراری */}
-              <div className="flex items-center gap-4 text-red-200 bg-red-500/20 rounded-xl p-4 border border-red-400/30 mt-6">
-                <svg className="w-8 h-8 text-red-300 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <div className="flex flex-col">
-                  <div className="mb-1">
-                    <span className="text-lg font-bold text-red-200">شماره اضطراری:</span>
-                    <span className="text-lg text-red-100 mr-2">09121240465</span>
-                  </div>
-                  <div>
-                    <span className="text-base text-red-200">49-36-146</span>
-                  </div>
-                </div>
+
               </div>
             </div>
 
             {/* نحوه ثبت سفارش */}
             <div className="space-y-6">
-              <h4 className="text-xl font-bold mb-6 flex items-center gap-3">
-                <svg className="w-6 h-6 text-blue-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <h4 className="text-xl font-bold mb-6 flex items-center gap-3 text-red-400">
+                <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 نحوه ثبت سفارش
               </h4>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-blue-400 rounded-full text-blue-900 text-sm font-bold flex-shrink-0 mt-1">1</div>
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">1</div>
                   <div>
-                    <span className="text-lg font-bold text-white block mb-2">انتخاب محصول</span>
+                    <span className="text-lg font-bold text-green-400 block mb-2">انتخاب محصول</span>
                     <p className="text-base text-blue-100">محصول مورد نظر خود را از لیست قیمت انتخاب کنید</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-blue-400 rounded-full text-blue-900 text-sm font-bold flex-shrink-0 mt-1">2</div>
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">2</div>
                   <div>
-                    <span className="text-lg font-bold text-white block mb-2">تماس با ما</span>
+                    <span className="text-lg font-bold text-green-400 block mb-2">تماس با ما</span>
                     <p className="text-base text-blue-100">از طریق شماره‌های تماس یا شبکه‌های اجتماعی با ما در ارتباط باشید</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-blue-400 rounded-full text-blue-900 text-sm font-bold flex-shrink-0 mt-1">3</div>
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">3</div>
                   <div>
-                    <span className="text-lg font-bold text-white block mb-2">تایید سفارش</span>
+                    <span className="text-lg font-bold text-green-400 block mb-2">تایید سفارش</span>
                     <p className="text-base text-blue-100">پس از تایید قیمت و موجودی، سفارش شما ثبت می‌شود</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 text-blue-100 bg-white/5 rounded-xl p-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-blue-400 rounded-full text-blue-900 text-sm font-bold flex-shrink-0 mt-1">4</div>
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-400 rounded-full text-green-900 text-sm font-bold flex-shrink-0 mt-1">4</div>
                   <div>
-                    <span className="text-lg font-bold text-white block mb-2">تحویل</span>
+                    <span className="text-lg font-bold text-green-400 block mb-2">تحویل</span>
                     <p className="text-base text-blue-100">محصول در کمترین زمان ممکن به شما تحویل داده می‌شود</p>
                   </div>
                 </div>

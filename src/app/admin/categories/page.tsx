@@ -150,7 +150,7 @@ const SortableCategoryRow = ({
       <TableCell>
         <div className="flex items-center gap-2">
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-2 shadow-sm">
-            <div className="text-xs text-blue-600 font-semibold mb-1 tracking-wide">آخرین بروزرسانی</div>
+            <div className="text-xs text-white font-semibold mb-1 tracking-wide">آخرین بروزرسانی</div>
             <div className="text-sm font-bold text-gray-800">
               {new Date(category.updatedAt).toLocaleDateString('fa-IR', {
                 year: 'numeric',
