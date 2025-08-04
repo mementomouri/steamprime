@@ -22,7 +22,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, GripVertical, Save, RotateCcw, AlertCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { MoreHorizontal, GripVertical, Save, RotateCcw, AlertCircle, Edit, Check, X } from "lucide-react";
 import { AddProductDialog, type EditableItem } from "./AddProductDialog";
 import type { Category, Product, Price } from "@prisma/client";
 
@@ -31,19 +32,109 @@ type PriceWithDetails = Price & { dimensions?: string | null };
 type ProductWithPrices = Product & { prices: PriceWithDetails[] };
 type CategoryWithProducts = Category & { products: ProductWithPrices[] };
 
+// کامپوننت ویرایش مستقیم قیمت
+const EditablePriceCell = ({ 
+  price, 
+  onSave, 
+  onCancel 
+}: { 
+  price: PriceWithDetails, 
+  onSave: (newAmount: number) => void, 
+  onCancel: () => void 
+}) => {
+  const [editingAmount, setEditingAmount] = useState(String(price.amount));
+  const [isEditing, setIsEditing] = useState(false);
 
+  // به‌روزرسانی editingAmount وقتی price تغییر می‌کند
+  useEffect(() => {
+    setEditingAmount(String(price.amount));
+  }, [price.amount]);
+
+  const handleSave = useCallback(() => {
+    const newAmount = Number(editingAmount);
+    if (isNaN(newAmount) || newAmount <= 0) {
+      toast.error('لطفاً یک قیمت معتبر وارد کنید');
+      return;
+    }
+    onSave(newAmount);
+    setIsEditing(false);
+  }, [editingAmount, onSave]);
+
+  const handleCancel = useCallback(() => {
+    setEditingAmount(String(price.amount));
+    setIsEditing(false);
+    onCancel();
+  }, [price.amount, onCancel]);
+
+  const handleKeyPress = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      handleCancel();
+    }
+  }, [handleSave, handleCancel]);
+
+  const startEditing = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  if (isEditing) {
+    return (
+      <div className="flex items-center gap-1">
+        <Input
+          value={editingAmount}
+          onChange={(e) => setEditingAmount(e.target.value)}
+          onKeyDown={handleKeyPress}
+          className="w-24 h-8 text-sm"
+          autoFocus
+          type="number"
+          min="0"
+        />
+        <Button size="sm" onClick={handleSave} className="h-8 w-8 p-0">
+          <Check className="h-3 w-3" />
+        </Button>
+        <Button size="sm" onClick={handleCancel} variant="outline" className="h-8 w-8 p-0">
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <span 
+        className="font-bold text-right cursor-pointer hover:text-blue-600 transition-colors" 
+        onClick={startEditing}
+        title="برای ویرایش کلیک کنید"
+      >
+        {new Intl.NumberFormat('fa-IR').format(Number(price.amount))}
+      </span>
+      <Button 
+        size="sm" 
+        onClick={startEditing} 
+        variant="ghost" 
+        className="h-6 w-6 p-0 hover:bg-blue-50"
+        title="ویرایش قیمت"
+      >
+        <Edit className="h-3 w-3" />
+      </Button>
+    </div>
+  );
+};
 
 // کامپوننت بهینه شده برای نمایش محصول
 const SortableProductRow = ({ 
   product, 
   onEdit, 
   onDelete,
-  onDeleteProduct
+  onDeleteProduct,
+  onPriceChange
 }: { 
   product: ProductWithPrices, 
   onEdit: (product: Product, price: PriceWithDetails | null) => void, 
   onDelete: (priceId: number) => void,
-  onDeleteProduct: (productId: number) => void
+  onDeleteProduct: (productId: number) => void,
+  onPriceChange: (priceId: number, newAmount: number) => void
 }) => {
   const {
     attributes,
@@ -60,11 +151,17 @@ const SortableProductRow = ({
     opacity: isDragging ? 0.5 : 1,
   };
 
-     // بهینه‌سازی: محاسبه قیمت اصلی فقط یک بار
-   const mainPrice = useMemo(() => 
-     product.prices[0] || null, 
-     [product.prices]
-   );
+  // بهینه‌سازی: محاسبه قیمت اصلی فقط یک بار
+  const mainPrice = useMemo(() => 
+    product.prices[0] || null, 
+    [product.prices]
+  );
+
+  const handlePriceSave = useCallback((newAmount: number) => {
+    if (mainPrice) {
+      onPriceChange(mainPrice.id, newAmount);
+    }
+  }, [mainPrice, onPriceChange]);
 
   return (
     <TableRow ref={setNodeRef} style={style} {...attributes} data-state={isDragging ? "dragging" : undefined}>
@@ -73,19 +170,24 @@ const SortableProductRow = ({
           <GripVertical className="h-5 w-5 text-gray-400" />
         </div>
       </TableCell>
-             <TableCell className="font-medium text-right">{product.name}</TableCell>
-       <TableCell className="text-sm text-right">
-         {mainPrice?.color || <span className="text-gray-400">-</span>}
-       </TableCell>
-       <TableCell className="text-sm text-right">
-         {mainPrice?.storage || <span className="text-gray-400">-</span>}
-       </TableCell>
-       <TableCell className="text-sm font-bold text-right">
-         {mainPrice?.amount ? 
-           new Intl.NumberFormat('fa-IR').format(Number(mainPrice.amount)) : 
-           <span className="text-gray-400">---</span>
-         }
-       </TableCell>
+      <TableCell className="font-medium text-right">{product.name}</TableCell>
+      <TableCell className="text-sm text-right">
+        {mainPrice?.color || <span className="text-gray-400">-</span>}
+      </TableCell>
+      <TableCell className="text-sm text-right">
+        {mainPrice?.storage || <span className="text-gray-400">-</span>}
+      </TableCell>
+      <TableCell className="text-sm font-bold text-right">
+        {mainPrice ? (
+          <EditablePriceCell
+            price={mainPrice}
+            onSave={handlePriceSave}
+            onCancel={() => {}}
+          />
+        ) : (
+          <span className="text-gray-400">---</span>
+        )}
+      </TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -93,26 +195,26 @@ const SortableProductRow = ({
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-             <DropdownMenuItem onClick={() => onEdit(product, mainPrice)}>
-               ویرایش
-             </DropdownMenuItem>
-             {mainPrice && (
-               <DropdownMenuItem 
-                 onClick={() => onDelete(mainPrice.id)} 
-                 className="text-red-600"
-               >
-                 حذف قیمت
-               </DropdownMenuItem>
-             )}
-             <DropdownMenuItem 
-               onClick={() => onDeleteProduct(product.id)} 
-               className="text-red-700 font-bold"
-             >
-               حذف کامل محصول
-             </DropdownMenuItem>
-           </DropdownMenuContent>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => onEdit(product, mainPrice)}>
+              ویرایش کامل
+            </DropdownMenuItem>
+            {mainPrice && (
+              <DropdownMenuItem 
+                onClick={() => onDelete(mainPrice.id)} 
+                className="text-red-600"
+              >
+                حذف قیمت
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem 
+              onClick={() => onDeleteProduct(product.id)} 
+              className="text-red-700 font-bold"
+            >
+              حذف کامل محصول
+            </DropdownMenuItem>
+          </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
     </TableRow>
@@ -129,11 +231,12 @@ export default function DashboardPage() {
   const [hasChanges, setHasChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const [pendingPriceChanges, setPendingPriceChanges] = useState<Map<number, number>>(new Map());
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // افزایش فاصله برای جلوگیری از drag تصادفی
+        distance: 8,
       },
     })
   );
@@ -160,11 +263,11 @@ export default function DashboardPage() {
       setOriginalCategories(data);
       setHasChanges(false);
       setRetryCount(0);
+      setPendingPriceChanges(new Map());
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "خطا در بارگذاری اطلاعات";
       setError(errorMessage);
       
-      // تلاش مجدد در صورت خطا
       if (retryCount < 3) {
         setTimeout(() => {
           setRetryCount(prev => prev + 1);
@@ -185,7 +288,7 @@ export default function DashboardPage() {
     [categories]
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       try {
@@ -199,7 +302,6 @@ export default function DashboardPage() {
         
         const newOrder = arrayMove(allProducts, oldIndex, newIndex);
 
-        // بازسازی categories از ترتیب جدید
         const newCategories = categories.map(category => ({
           ...category,
           products: newOrder.filter(product => product.categoryId === category.id)
@@ -212,9 +314,27 @@ export default function DashboardPage() {
         toast.error('خطا در تغییر ترتیب محصولات');
       }
     }
-  };
+  }, [allProducts, categories]);
 
-  const handleSaveChanges = async () => {
+  const handlePriceChange = useCallback((priceId: number, newAmount: number) => {
+    setPendingPriceChanges(prev => new Map(prev).set(priceId, newAmount));
+    setHasChanges(true);
+    
+    // به‌روزرسانی موقت UI - فقط برای نمایش
+    setCategories(prevCategories => 
+      prevCategories.map(category => ({
+        ...category,
+        products: category.products.map(product => ({
+          ...product,
+          prices: product.prices.map(price => 
+            price.id === priceId ? { ...price, amount: newAmount as any } : price // eslint-disable-line @typescript-eslint/no-explicit-any
+          )
+        }))
+      }))
+    );
+  }, []);
+
+  const handleSaveChanges = useCallback(async () => {
     if (!hasChanges) return;
 
     const promise = new Promise<void>(async (resolve, reject) => {
@@ -223,7 +343,6 @@ export default function DashboardPage() {
         
         const orderedIds = allProducts.map(product => product.id);
         
-        // اعتبارسنجی داده‌ها قبل از ارسال
         if (orderedIds.length === 0) {
           throw new Error('هیچ محصولی برای ذخیره وجود ندارد');
         }
@@ -231,7 +350,27 @@ export default function DashboardPage() {
         if (orderedIds.some(id => !id || id <= 0)) {
           throw new Error('شناسه‌های محصول نامعتبر هستند');
         }
+
+        // ذخیره تغییرات قیمت‌ها
+        const priceUpdatePromises = Array.from(pendingPriceChanges.entries()).map(([priceId, newAmount]) =>
+          fetch(`/api/admin/prices/${priceId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: newAmount }),
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error(`خطا در به‌روزرسانی قیمت ${priceId}`);
+            }
+            return response;
+          })
+        );
+
+        // اجرای همزمان به‌روزرسانی قیمت‌ها
+        if (priceUpdatePromises.length > 0) {
+          await Promise.all(priceUpdatePromises);
+        }
         
+        // ذخیره تغییرات ترتیب محصولات
         const response = await fetch('/api/admin/products/reorder', {
           method: 'POST',
           headers: { 
@@ -248,6 +387,7 @@ export default function DashboardPage() {
         const result = await response.json();
         setOriginalCategories(categories);
         setHasChanges(false);
+        setPendingPriceChanges(new Map());
         
         toast.success(`تغییرات با موفقیت ذخیره شد! (${result.updatedCount} محصول)`);
         resolve();
@@ -264,15 +404,16 @@ export default function DashboardPage() {
       success: 'تغییرات با موفقیت ذخیره شد!',
       error: (err) => err.message,
     });
-  };
+  }, [hasChanges, allProducts, pendingPriceChanges, categories]);
 
-  const handleResetChanges = () => {
+  const handleResetChanges = useCallback(() => {
     setCategories(originalCategories);
     setHasChanges(false);
+    setPendingPriceChanges(new Map());
     toast.success('تغییرات لغو شد');
-  };
+  }, [originalCategories]);
 
-  const handleDeletePrice = async (priceId: number) => {
+  const handleDeletePrice = useCallback(async (priceId: number) => {
     if (!priceId || priceId <= 0) {
       toast.error('شناسه قیمت نامعتبر است');
       return;
@@ -309,9 +450,9 @@ export default function DashboardPage() {
       success: 'قیمت با موفقیت حذف شد!',
       error: (err) => err.message === "Operation cancelled" ? "عملیات لغو شد." : err.message,
     });
-  };
+  }, [fetchItems]);
 
-  const handleDeleteProduct = async (productId: number) => {
+  const handleDeleteProduct = useCallback(async (productId: number) => {
     if (!productId || productId <= 0) {
       toast.error('شناسه محصول نامعتبر است');
       return;
@@ -348,35 +489,34 @@ export default function DashboardPage() {
       success: 'محصول با موفقیت حذف شد!',
       error: (err) => err.message === "Operation cancelled" ? "عملیات لغو شد." : err.message,
     });
-  };
+  }, [fetchItems]);
   
-  const handleEditClick = (product: Product, price: PriceWithDetails | null) => {
+  const handleEditClick = useCallback((product: Product, price: PriceWithDetails | null) => {
     if (price) {
       setEditingItem({ product, price });
     } else {
-      // اگر قیمت وجود ندارد، یک قیمت dummy ایجاد می‌کنیم
-             setEditingItem({ 
-         product, 
-         price: { 
-           id: 0, 
-           amount: 0 as unknown as Price['amount'], 
-           createdAt: new Date(), 
-           productId: product.id, 
-           color: null, 
-           storage: null, 
-           warranty: null, 
-           label: null, 
-           dimensions: null 
-         } 
-       });
+      setEditingItem({ 
+        product, 
+        price: { 
+          id: 0, 
+          amount: 0 as unknown as Price['amount'], 
+          createdAt: new Date(), 
+          productId: product.id, 
+          color: null, 
+          storage: null, 
+          warranty: null, 
+          label: null, 
+          dimensions: null 
+        } 
+      });
     }
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleAddNewClick = () => {
+  const handleAddNewClick = useCallback(() => {
     setEditingItem(null);
     setIsDialogOpen(true);
-  };
+  }, []);
 
   // نمایش خطا
   if (error) {
@@ -460,16 +600,16 @@ export default function DashboardPage() {
                 <AccordionContent className="p-2">
                   <div className="rounded-lg border shadow-sm">
                     <Table>
-                                             <TableHeader>
-                         <TableRow>
-                           <TableHead className="w-12"></TableHead>
-                           <TableHead className="text-right">نام محصول</TableHead>
-                           <TableHead className="text-right">رنگ</TableHead>
-                           <TableHead className="text-right">حافظه</TableHead>
-                           <TableHead className="text-right">قیمت (تومان)</TableHead>
-                           <TableHead><span className="sr-only">عملیات</span></TableHead>
-                         </TableRow>
-                       </TableHeader>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-12"></TableHead>
+                          <TableHead className="text-right">نام محصول</TableHead>
+                          <TableHead className="text-right">رنگ</TableHead>
+                          <TableHead className="text-right">حافظه</TableHead>
+                          <TableHead className="text-right">قیمت (تومان)</TableHead>
+                          <TableHead><span className="sr-only">عملیات</span></TableHead>
+                        </TableRow>
+                      </TableHeader>
                       <TableBody>
                         {category.products.length > 0 ? (
                           <SortableContext 
@@ -483,6 +623,7 @@ export default function DashboardPage() {
                                 onEdit={handleEditClick}
                                 onDelete={handleDeletePrice}
                                 onDeleteProduct={handleDeleteProduct}
+                                onPriceChange={handlePriceChange}
                               />
                             ))}
                           </SortableContext>
