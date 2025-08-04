@@ -3,9 +3,9 @@
 
 /* تعریف فونت سفارشی */
 @font-face {
-  font-family: 'BYekanBold';
-  src: url('/src/assets/fonts/B Yekan+ Bold.woff2') format('woff2');
-  font-weight: bold;
+  font-family: 'IRANYekanX';
+  src: url('/fonts/IRANYekanX-Bold.woff2') format('woff2');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -127,6 +127,9 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  body, * {
+    font-family: 'IRANYekanX', sans-serif !important;
   }
 }
 
