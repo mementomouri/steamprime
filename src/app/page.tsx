@@ -5,7 +5,7 @@ import Image from "next/image";
 import type { Category, Product, Price } from "@prisma/client";
 import { Phone } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { AppleIcon } from '@/components/ui/apple-icon';
+import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@/components/ui/apple-icon';
 import { SamsungIcon } from '@/components/ui/samsung-icon';
 
 export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
@@ -84,16 +84,15 @@ export default async function HomePage() {
            
             {/* دکمه ثبت سفارش */}
             <div className="flex items-center gap-4 w-full sm:w-auto">
-              <button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 sm:px-8 py-3 rounded-xl font-semibold text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                برای ثبت سفارش با واتساپ موبایل تایگر در ارتباط باشید
-              </button>
               
               {/* آیکون‌های برند */}
               <div className="flex items-center gap-2">
-                {/* آیکون Apple */}
+                {/* Apple Icon */}
                 <AppleIcon />
-                
-                {/* آیکون Samsung */}
+                <AppleIconNothing />
+                <AppleIconGoogle />
+                <AppleIconXiaomi />
+                {/* Samsung Icon */}
                 <SamsungIcon />
               </div>
             </div>
