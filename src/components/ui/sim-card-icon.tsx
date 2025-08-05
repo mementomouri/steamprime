@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function SimCardIcon() {
   const handleSimCardClick = () => {
-    const simCardSection = document.querySelector('[data-category="ACCESSORIES APPLE"]');
+    const simCardSection = document.querySelector('[data-category="sim card"]');
     if (simCardSection) {
       simCardSection.scrollIntoView({ 
         behavior: 'smooth',

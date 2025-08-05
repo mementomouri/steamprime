@@ -49,7 +49,7 @@ export default async function HomePage() {
   return (
     <main className="w-full min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* هدر بهینه شده */}
-      <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg sticky top-0 z-50">
+      <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg">
         <div className="max-w-6xl mx-auto py-4 sm:py-6">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 px-4">
             {/* لوگو و دکمه تم */}
