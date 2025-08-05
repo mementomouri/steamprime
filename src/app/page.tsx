@@ -9,6 +9,7 @@ import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@
 import { SamsungIcon } from '@/components/ui/samsung-icon';
 import { PlayStationIcon } from '@/components/ui/playstation-icon';
 import { SimCardIcon } from '@/components/ui/sim-card-icon';
+import { SamandehiLogo } from '@/components/ui/samandehi-logo';
 
 export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
 
@@ -252,15 +253,20 @@ export default async function HomePage() {
                 </a>
 
                 {/* لوگوی اعتماد الکترونیک */}
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-8 gap-4">
                   <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz">
-                    <img
+                    <Image
                       referrerPolicy="origin"
                       src="https://trustseal.enamad.ir/logo.aspx?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz"
                       alt="نماد اعتماد الکترونیک"
+                      width={120}
+                      height={60}
                       style={{ cursor: "pointer" }}
                     />
                   </a>
+                  
+                  {/* لوگوی ساماندهی */}
+                  <SamandehiLogo />
                 </div>
 
               </div>
