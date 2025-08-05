@@ -7,6 +7,8 @@ import { Phone } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@/components/ui/apple-icon';
 import { SamsungIcon } from '@/components/ui/samsung-icon';
+import { PlayStationIcon } from '@/components/ui/playstation-icon';
+import { SimCardIcon } from '@/components/ui/sim-card-icon';
 
 export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
 
@@ -87,13 +89,13 @@ export default async function HomePage() {
               
               {/* آیکون‌های برند */}
               <div className="flex items-center gap-2">
-                {/* Apple Icon */}
-                <AppleIcon />
                 <AppleIconNothing />
-                <AppleIconGoogle />
                 <AppleIconXiaomi />
-                {/* Samsung Icon */}
+                <PlayStationIcon />
+                <AppleIconGoogle />
+                <SimCardIcon />
                 <SamsungIcon />
+                <AppleIcon />
               </div>
             </div>
           </div>
