@@ -5,6 +5,8 @@ import Image from "next/image";
 import type { Category, Product, Price } from "@prisma/client";
 import { Phone } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { AppleIcon } from '@/components/ui/apple-icon';
+import { SamsungIcon } from '@/components/ui/samsung-icon';
 
 export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
 
@@ -48,13 +50,21 @@ export default async function HomePage() {
       <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg">
         <div className="max-w-6xl mx-auto py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 px-4">
-            <Image 
-              src="/logo.png" 
-              alt="موبایل تایگر" 
-              width={32}
-              height={32}
-              className="h-8 w-auto"
-            />
+            <div className="flex items-center gap-2">
+              <Image 
+                src="/logo.png" 
+                alt="موبایل تایگر" 
+                width={32}
+                height={32}
+                className="h-8 w-auto"
+              />
+              
+              {/* دکمه تغییر تم */}
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200">
+                <ThemeToggle />
+              </div>
+            </div>
+            
             {/* سرچ‌بار جدید - مینیمال و آبی سفید */}
             <SearchBar data={serializableData} />
             
@@ -78,9 +88,13 @@ export default async function HomePage() {
                 برای ثبت سفارش با واتساپ موبایل تایگر در ارتباط باشید
               </button>
               
-              {/* دکمه تغییر تم */}
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200">
-                <ThemeToggle />
+              {/* آیکون‌های برند */}
+              <div className="flex items-center gap-2">
+                {/* آیکون Apple */}
+                <AppleIcon />
+                
+                {/* آیکون Samsung */}
+                <SamsungIcon />
               </div>
             </div>
           </div>
@@ -235,6 +249,17 @@ export default async function HomePage() {
                   <span className="text-sm font-semibold text-white relative z-10">Telegram</span>
                 </a>
 
+                {/* لوگوی اعتماد الکترونیک */}
+                <div className="flex justify-center mt-8">
+                  <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz">
+                    <img
+                      referrerPolicy="origin"
+                      src="https://trustseal.enamad.ir/logo.aspx?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz"
+                      alt="نماد اعتماد الکترونیک"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </a>
+                </div>
 
               </div>
             </div>

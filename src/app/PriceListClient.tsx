@@ -76,7 +76,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
       <div className="space-y-4 sm:space-y-8">
         {filteredData.length > 0 ? (
           filteredData.map((category) => (
-            <section key={category.id}>
+            <section key={category.id} data-category={category.name}>
               <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center text-white p-3 rounded-t-lg gap-2 ${category.brandColor || 'bg-gray-800'}`}>
                 <h2 className="text-lg sm:text-xl font-bold">{category.name}</h2>
                 <div className="flex items-center gap-1 sm:gap-2">

@@ -143,7 +143,7 @@ export default function SearchBar({ data }: SearchBarProps) {
       <div className="relative group">
         <input
           type="text"
-          placeholder="جستجو در محصولات..."
+          placeholder="SEARCH"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => searchTerm.trim() && setShowDropdown(true)}
