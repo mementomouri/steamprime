@@ -48,11 +48,12 @@ export default async function HomePage() {
 
   return (
     <main className="w-full min-h-screen bg-gray-100 dark:bg-gray-900">
-      {/* هدر شیشه‌ای خالی */}
-      <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg">
-        <div className="max-w-6xl mx-auto py-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 px-4">
-            <div className="flex items-center gap-2">
+      {/* هدر بهینه شده */}
+      <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto py-4 sm:py-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 px-4">
+            {/* لوگو و دکمه تم */}
+            <div className="flex items-center gap-2 w-full lg:w-auto">
               <Image 
                 src="/logo.png" 
                 alt="موبایل تایگر" 
@@ -67,11 +68,13 @@ export default async function HomePage() {
               </div>
             </div>
             
-            {/* سرچ‌بار جدید - مینیمال و آبی سفید */}
-            <SearchBar data={serializableData} />
+            {/* سرچ‌بار */}
+            <div className="flex-1 min-w-0">
+              <SearchBar data={serializableData} />
+            </div>
             
             {/* شماره تماس */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full lg:w-auto">
               <a 
                 href="tel:28421523" 
                 className="group flex items-center gap-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-2 border-blue-500 dark:border-blue-400 px-4 py-2.5 rounded-xl text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/50 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
@@ -84,11 +87,9 @@ export default async function HomePage() {
               </a>
             </div>
            
-            {/* دکمه ثبت سفارش */}
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              
-              {/* آیکون‌های برند */}
-              <div className="flex items-center gap-2">
+            {/* آیکون‌های برند */}
+            <div className="flex items-center gap-2 w-full lg:w-auto justify-center lg:justify-end">
+              <div className="flex items-center gap-2 flex-wrap justify-center">
                 <AppleIconNothing />
                 <AppleIconXiaomi />
                 <PlayStationIcon />
