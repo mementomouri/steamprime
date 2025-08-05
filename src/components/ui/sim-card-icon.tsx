@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function SimCardIcon() {
   const handleSimCardClick = () => {
-    const simCardSection = document.querySelector('[data-category="sim card"]');
+    const simCardSection = document.querySelector('[data-category="ACCESSORIES APPLE"]');
     if (simCardSection) {
       simCardSection.scrollIntoView({ 
         behavior: 'smooth',
@@ -19,7 +19,7 @@ export function SimCardIcon() {
       title="برو به بخش سیم کارت"
     >
       <Image 
-        src="/mcinet.svg" 
+        src="/MCINET.svg" 
         alt="سیم کارت" 
         width={36}
         height={36}
