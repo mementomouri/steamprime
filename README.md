@@ -1,200 +1,217 @@
-# SteamPrime - سیستم مدیریت قیمت‌ها
+# SteamPrime - Mobile Tiger Price List
 
-یک سیستم کامل مدیریت قیمت‌ها با قابلیت drag and drop و مدیریت دسته‌بندی‌ها.
+A modern, responsive web application for managing and displaying mobile device prices with real-time updates and an intuitive admin panel.
 
-## 🚀 ویژگی‌ها
+## 🌟 Features
 
-### **مدیریت دسته‌بندی‌ها**
-- ✅ **فعال/غیرفعال کردن دسته‌بندی‌ها**
-- ✅ **Drag and Drop** برای مرتب‌سازی
-- ✅ **مدیریت رنگ‌ها** برای هر دسته‌بندی
-- ✅ **نمایش تعداد محصولات** در هر دسته‌بندی
+### User Interface
+- **Responsive Design**: Optimized for all devices (mobile, tablet, desktop)
+- **Dark/Light Theme**: Toggle between themes with smooth transitions
+- **Real-time Search**: Instant search through products and categories
+- **Modern UI**: Beautiful gradient designs and smooth animations
+- **Persian/Farsi Support**: Full RTL support for Persian language
 
-### **مدیریت محصولات**
-- ✅ **Drag and Drop** برای مرتب‌سازی محصولات
-- ✅ **مدیریت قیمت‌ها** با جزئیات کامل
-- ✅ **ذخیره تغییرات** با تأیید کاربر
-- ✅ **بازنشانی تغییرات** در صورت نیاز
+### Product Management
+- **Dynamic Categories**: Organize products by brand (Apple, Samsung, PlayStation, etc.)
+- **Price Tracking**: Real-time price updates with history
+- **Product Details**: Comprehensive product information and specifications
+- **Stock Management**: Track product availability
 
-### **امنیت و عملکرد**
-- ✅ **احراز هویت کامل** با NextAuth.js
-- ✅ **Rate Limiting** برای جلوگیری از حملات
-- ✅ **Security Headers** برای محافظت
-- ✅ **عملکرد بهینه** با React hooks
+### Admin Panel
+- **Secure Authentication**: Protected admin routes with NextAuth.js
+- **Product Management**: Add, edit, and organize products
+- **Category Management**: Create and manage product categories
+- **Price Management**: Update prices with precision
+- **Drag & Drop**: Reorder products and categories easily
+- **Real-time Updates**: Changes reflect immediately
 
-## 🛠️ تکنولوژی‌ها
+### Technical Features
+- **Next.js 15**: Latest React framework with App Router
+- **TypeScript**: Full type safety
+- **Prisma ORM**: Type-safe database operations
+- **PostgreSQL**: Robust database backend
+- **Tailwind CSS**: Utility-first styling
+- **ESLint**: Code quality and consistency
 
-- **Frontend**: Next.js 15, React, TypeScript
-- **Backend**: Next.js API Routes
-- **Database**: PostgreSQL با Prisma ORM
-- **Authentication**: NextAuth.js
-- **UI**: Tailwind CSS, Radix UI
-- **Drag & Drop**: @dnd-kit
-- **Styling**: Tailwind CSS
+## 🚀 Quick Start
 
-## 📦 نصب و راه‌اندازی
+### Prerequisites
+- Node.js 18+ 
+- PostgreSQL database
+- npm or yarn
 
-### **پیش‌نیازها**
-- Node.js 18+
-- PostgreSQL
-- npm یا yarn
+### Installation
 
-### **مراحل نصب**
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/steamprime.git
+   cd steamprime
+   ```
 
-1. **کلون کردن پروژه**
-```bash
-git clone https://github.com/yourusername/steamprime.git
-cd steamprime
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/price_list_db"
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+4. **Database Setup**
+   ```bash
+   npx prisma generate
+   npx prisma migrate deploy
+   ```
+
+5. **Create Admin User**
+   ```bash
+   node scripts/create-admin.js
+   ```
+
+6. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+
+7. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+## 📁 Project Structure
+
+```
+steamprime/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── admin/             # Admin panel pages
+│   │   ├── api/               # API routes
+│   │   └── globals.css        # Global styles
+│   ├── components/            # Reusable components
+│   │   ├── admin/            # Admin-specific components
+│   │   └── ui/               # UI components
+│   └── lib/                  # Utility functions
+├── prisma/                   # Database schema and migrations
+├── public/                   # Static assets
+└── scripts/                  # Utility scripts
 ```
 
-2. **نصب وابستگی‌ها**
-```bash
-npm install
-```
+## 🛠️ Available Scripts
 
-3. **تنظیم متغیرهای محیطی**
-```bash
-cp .env.example .env
-```
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npx prisma studio` - Open Prisma Studio for database management
 
-فایل `.env` را ویرایش کنید:
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/price_list_db"
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
-```
+## 🗄️ Database Schema
 
-4. **تنظیم پایگاه داده**
-```bash
-npx prisma db push
-npx prisma generate
-```
+### Categories
+- `id`: Unique identifier
+- `name`: Category name
+- `position`: Display order
+- `isActive`: Active status
 
-5. **راه‌اندازی سرور**
-```bash
-npm run dev
-```
+### Products
+- `id`: Unique identifier
+- `name`: Product name
+- `description`: Product description
+- `categoryId`: Foreign key to category
+- `position`: Display order
+- `isActive`: Active status
 
-## 🗄️ ساختار پایگاه داده
+### Prices
+- `id`: Unique identifier
+- `productId`: Foreign key to product
+- `amount`: Price amount (Decimal)
+- `createdAt`: Timestamp
 
-### **جدول Category**
-```sql
-- id: Int (Primary Key)
-- name: String (Unique)
-- brandColor: String?
-- position: Int (Default: 0)
-- isActive: Boolean (Default: true)
-- createdAt: DateTime
-- updatedAt: DateTime
-```
+## 🔐 Authentication
 
-### **جدول Product**
-```sql
-- id: Int (Primary Key)
-- name: String
-- description: String?
-- categoryId: Int (Foreign Key)
-- position: Int (Default: 0)
-- createdAt: DateTime
-- updatedAt: DateTime
-```
+The admin panel uses NextAuth.js for secure authentication. Admin users can:
+- Access protected routes
+- Manage products and categories
+- Update prices
+- View analytics
 
-### **جدول Price**
-```sql
-- id: Int (Primary Key)
-- amount: Decimal
-- color: String?
-- storage: String?
-- warranty: String?
-- label: String?
-- productId: Int (Foreign Key)
-- createdAt: DateTime
-```
+## 🎨 Customization
 
-## 🔧 API Endpoints
+### Themes
+The application supports both light and dark themes. Theme preferences are stored in localStorage.
 
-### **دسته‌بندی‌ها**
-- `GET /api/admin/categories` - دریافت لیست دسته‌بندی‌ها
-- `POST /api/admin/categories` - ایجاد دسته‌بندی جدید
-- `PUT /api/admin/categories/[id]` - ویرایش دسته‌بندی
-- `DELETE /api/admin/categories/[id]` - حذف دسته‌بندی
-- `PATCH /api/admin/categories/[id]/toggle` - تغییر وضعیت فعال/غیرفعال
+### Styling
+Built with Tailwind CSS for easy customization. Main color scheme:
+- Primary: Green (#10B981)
+- Secondary: Blue (#3B82F6)
+- Accent: Purple (#8B5CF6)
 
-### **محصولات**
-- `GET /api/admin/products` - دریافت لیست محصولات
-- `POST /api/admin/products` - ایجاد محصول جدید
-- `POST /api/admin/products/reorder` - مرتب‌سازی محصولات
+### Components
+All UI components are located in `src/components/ui/` and can be customized as needed.
 
-### **قیمت‌ها**
-- `PUT /api/admin/prices/[id]` - ویرایش قیمت
-- `DELETE /api/admin/prices/[id]` - حذف قیمت
+## 📱 Responsive Design
 
-## 🎯 نحوه استفاده
+The application is fully responsive with breakpoints:
+- Mobile: < 640px
+- Tablet: 640px - 1024px
+- Desktop: > 1024px
 
-### **مدیریت دسته‌بندی‌ها**
-1. به صفحه `/admin/categories` بروید
-2. برای فعال/غیرفعال کردن روی دکمه مربوطه کلیک کنید
-3. برای مرتب‌سازی با drag and drop استفاده کنید
-4. برای ویرایش روی منوی سه نقطه کلیک کنید
+## 🔧 Configuration
 
-### **مدیریت محصولات**
-1. به صفحه `/admin/dashboard` بروید
-2. محصولات را با drag and drop مرتب کنید
-3. روی "ثبت تغییرات" کلیک کنید
-4. تغییرات در سایت اصلی اعمال می‌شود
+### Environment Variables
+- `DATABASE_URL`: PostgreSQL connection string
+- `NEXTAUTH_SECRET`: Secret key for authentication
+- `NEXTAUTH_URL`: Application URL
 
-## 🔒 امنیت
+### Database Configuration
+The application uses Prisma with PostgreSQL. Database migrations are automatically applied during build.
 
-### **احراز هویت**
-- Session-based authentication
-- محافظت از تمام API endpoints
-- Redirect خودکار برای کاربران غیرمجاز
+## 🚀 Deployment
 
-### **Rate Limiting**
-- 100 درخواست در دقیقه برای هر IP
-- محافظت در برابر حملات DoS
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
 
-### **Security Headers**
-- X-Frame-Options: DENY
-- X-Content-Type-Options: nosniff
-- X-XSS-Protection: 1; mode=block
-- Strict-Transport-Security
-- Content-Security-Policy
+### Other Platforms
+The application can be deployed to any platform that supports Next.js:
+- Netlify
+- Railway
+- DigitalOcean App Platform
+- AWS Amplify
 
-## 📊 عملکرد
+## 🤝 Contributing
 
-### **Benchmarks**
-- **Drag operation**: < 50ms
-- **Save operation**: < 200ms
-- **Page load**: < 1s
-- **Memory usage**: < 50MB برای 1000 محصول
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### **محدودیت‌ها**
-- **حداکثر محصولات**: 10,000 در هر دسته‌بندی
-- **حداکثر دسته‌بندی‌ها**: 100
-- **کاربران همزمان**: 50
-- **Rate limit**: 100 درخواست/دقیقه برای هر IP
+## 📄 License
 
-## 🤝 مشارکت
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-1. Fork کنید
-2. Branch جدید ایجاد کنید (`git checkout -b feature/amazing-feature`)
-3. تغییرات را commit کنید (`git commit -m 'Add amazing feature'`)
-4. Push کنید (`git push origin feature/amazing-feature`)
-5. Pull Request ایجاد کنید
+## 👥 Team
 
-## 📝 لایسنس
+- **سید مهراد سیدعلیخانی** - Project Manager & Developer
+- **Mobile Tiger** - Company
 
-این پروژه تحت لایسنس MIT منتشر شده است.
+## 📞 Contact
 
-## 📞 پشتیبانی
+- **Phone**: 0912-493-61-46, 0912-124-04-65
+- **WhatsApp**: [Mobile Tiger](https://wa.me/989124936146)
+- **Telegram**: [@mehrad_tiger](https://t.me/mehrad_tiger)
+- **Instagram**: [@mobile.tiger](https://instagram.com/mobile.tiger)
 
-برای سوالات و مشکلات:
-- Issue در GitHub ایجاد کنید
-- ایمیل: support@steamprime.com
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Prisma team for the excellent ORM
+- Tailwind CSS for the utility-first CSS framework
+- All contributors and supporters
 
 ---
 
-**توسعه‌دهنده**: SteamPrime Team  
-**نسخه**: 1.0.0  
-**آخرین بروزرسانی**: دسامبر 2024
+**Made with ❤️ by Mobile Tiger Team**
