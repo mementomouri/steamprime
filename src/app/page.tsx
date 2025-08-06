@@ -252,21 +252,22 @@ export default async function HomePage() {
                   <span className="text-sm font-semibold text-white relative z-10">Telegram</span>
                 </a>
 
-                {/* لوگوی اعتماد الکترونیک */}
-                <div className="flex justify-center mt-8 gap-4">
-                  <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz">
-                    <Image
-                      referrerPolicy="origin"
-                      src="https://trustseal.enamad.ir/logo.aspx?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz"
-                      alt="نماد اعتماد الکترونیک"
-                      width={120}
-                      height={60}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </a>
-                  
-                  {/* لوگوی ساماندهی */}
-                  <SamandehiLogo />
+                {/* لوگوهای اعتماد */}
+                <div className="flex flex-col items-center mt-8">
+                  <span className="mb-2 text-sm text-blue-100 font-semibold">نمادهای اعتماد</span>
+                  <div className="flex flex-row items-center justify-center gap-4 bg-white/10 border border-white/20 rounded-xl p-4 w-fit">
+                    <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz">
+                      <Image
+                        referrerPolicy="origin"
+                        src="https://trustseal.enamad.ir/logo.aspx?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz"
+                        alt="نماد اعتماد الکترونیک"
+                        width={120}
+                        height={60}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </a>
+                    <SamandehiLogo />
+                  </div>
                 </div>
 
               </div>
