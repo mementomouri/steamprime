@@ -13,6 +13,13 @@ const byekanBold = localFont({
 export const metadata: Metadata = {
   title: "Mobile Tiger",
   description: "Price list for mobile devices",
+  icons: {
+    icon: [
+      { url: '/TIGER.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/TIGER.svg',
+    apple: '/TIGER.svg',
+  },
 };
 
 export default function RootLayout({

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست API OTP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid #4CAF50;
+        }
+        .error {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid #f44336;
+        }
+        .info {
+            background: rgba(33, 150, 243, 0.3);
+            border: 1px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 تست API OTP</h1>
+        <p>این صفحه برای تست مستقیم API های OTP طراحی شده است.</p>
+        
+        <div>
+            <h3>📱 ارسال کد تایید</h3>
+            <input type="tel" id="phoneInput" placeholder="شماره موبایل (مثال: 09123456789)" maxlength="11">
+            <button onclick="sendOTP()" id="sendBtn">ارسال کد تایید</button>
+            <div id="sendResult"></div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3>🔐 تایید کد</h3>
+            <input type="text" id="codeInput" placeholder="کد 6 رقمی" maxlength="6">
+            <button onclick="verifyOTP()" id="verifyBtn">تایید کد</button>
+            <div id="verifyResult"></div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3>🔍 وضعیت سیستم</h3>
+            <button onclick="checkDebug()">بررسی وضعیت</button>
+            <div id="debugResult"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPhone = '';
+
+        async function sendOTP() {
+            const phone = document.getElementById('phoneInput').value;
+            const sendBtn = document.getElementById('sendBtn');
+            const resultDiv = document.getElementById('sendResult');
+
+            if (!phone || phone.length !== 11) {
+                showResult(resultDiv, 'لطفاً شماره موبایل 11 رقمی وارد کنید', 'error');
+                return;
+            }
+
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'در حال ارسال...';
+            showResult(resultDiv, 'در حال ارسال کد...', 'info');
+
+            try {
+                const response = await fetch('/api/auth/send-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber: phone }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentPhone = phone;
+                    showResult(resultDiv, `✅ ${data.message}<br>کد در ترمینال سرور نمایش داده می‌شود`, 'success');
+                } else {
+                    showResult(resultDiv, `❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultDiv, `❌ خطا در ارتباط با سرور: ${error.message}`, 'error');
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'ارسال کد تایید';
+            }
+        }
+
+        async function verifyOTP() {
+            const code = document.getElementById('codeInput').value;
+            const verifyBtn = document.getElementById('verifyBtn');
+            const resultDiv = document.getElementById('verifyResult');
+
+            if (!currentPhone) {
+                showResult(resultDiv, 'لطفاً ابتدا کد تایید ارسال کنید', 'error');
+                return;
+            }
+
+            if (!code || code.length !== 6) {
+                showResult(resultDiv, 'لطفاً کد 6 رقمی وارد کنید', 'error');
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'در حال تایید...';
+            showResult(resultDiv, 'در حال تایید کد...', 'info');
+
+            try {
+                const response = await fetch('/api/auth/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber: currentPhone, code: code }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResult(resultDiv, `✅ ${data.message}`, 'success');
+                } else {
+                    showResult(resultDiv, `❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultDiv, `❌ خطا در ارتباط با سرور: ${error.message}`, 'error');
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'تایید کد';
+            }
+        }
+
+        async function checkDebug() {
+            const resultDiv = document.getElementById('debugResult');
+            showResult(resultDiv, 'در حال بررسی...', 'info');
+
+            try {
+                const response = await fetch('/api/auth/debug');
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResult(resultDiv, `
+                        <strong>وضعیت سیستم:</strong><br>
+                        📊 تعداد کدهای موجود: ${data.totalOTPs}<br>
+                        🕐 زمان بررسی: ${new Date(data.timestamp).toLocaleString('fa-IR')}<br>
+                        💬 پیام: ${data.message}
+                    `, 'success');
+                } else {
+                    showResult(resultDiv, `❌ خطا در دریافت اطلاعات`, 'error');
+                }
+            } catch (error) {
+                showResult(resultDiv, `❌ خطا در ارتباط با سرور: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(element, message, type) {
+            element.innerHTML = message;
+            element.className = `result ${type}`;
+        }
+
+        // اضافه کردن event listener برای Enter key
+        document.getElementById('phoneInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendOTP();
+        });
+
+        document.getElementById('codeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') verifyOTP();
+        });
+    </script>
+</body>
+</html> 

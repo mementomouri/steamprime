@@ -6,6 +6,7 @@ import type { Category, Product, Price } from "@prisma/client";
 import { Phone } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@/components/ui/apple-icon';
+import LoginButtonWrapper from "@/components/ui/login-button-wrapper";
 import { SamsungIcon } from '@/components/ui/samsung-icon';
 import { PlayStationIcon } from '@/components/ui/playstation-icon';
 import { SimCardIcon } from '@/components/ui/sim-card-icon';
@@ -49,47 +50,57 @@ export default async function HomePage() {
   return (
     <main className="w-full min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* هدر بهینه شده */}
-      <header className="w-full bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/30 shadow-lg">
-        <div className="max-w-6xl mx-auto py-4 sm:py-6">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 px-4">
-            {/* لوگو و دکمه تم */}
-            <div className="flex items-center gap-2 w-full lg:w-auto">
-              <Image 
-                src="/logo.png" 
-                alt="موبایل تایگر" 
-                width={32}
-                height={32}
-                className="h-8 w-auto"
-              />
+      <header className="w-full bg-gradient-to-r from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 backdrop-blur-xl border-b border-white/40 dark:border-gray-700/40 shadow-xl">
+        <div className="mx-auto py-3 sm:py-4 lg:py-5">
+          <div className="flex flex-col items-center gap-4 sm:gap-5 lg:flex-row lg:items-center lg:gap-6 px-3 sm:px-4 lg:px-6">
+            {/* لوگو و شماره تماس - ردیف اول موبایل */}
+            <div className="flex items-center justify-between w-full lg:w-auto order-1 lg:order-none">
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-2xl p-2.5 shadow-lg">
+                <Image 
+                  src="/logo.png" 
+                  alt="موبایل تایگر" 
+                  width={32}
+                  height={32}
+                  className="h-8 w-auto"
+                />
+              </div>
               
-              {/* دکمه تغییر تم */}
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200">
-                <ThemeToggle />
+              {/* شماره تماس - کنار لوگو در موبایل */}
+              <div className="lg:hidden">
+                <a 
+                  href="tel:28421523" 
+                  className="group flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 backdrop-blur-md border border-blue-400/30 dark:border-blue-500/30 px-3 py-2 rounded-xl text-white text-sm font-bold hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  <svg className="w-4 h-4 text-blue-100 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="text-sm font-bold tracking-wide">28421523</span>
+                </a>
               </div>
             </div>
             
-            {/* سرچ‌بار */}
-            <div className="flex-1 min-w-0">
+            {/* سرچ‌بار - ردیف دوم موبایل */}
+            <div className="w-full order-2 lg:order-none lg:flex-1 lg:min-w-0">
               <SearchBar data={serializableData} />
             </div>
             
-            {/* شماره تماس */}
-            <div className="flex items-center gap-2 w-full lg:w-auto">
+            {/* شماره تماس - فقط در دسکتاپ */}
+            <div className="hidden lg:flex items-center gap-2 w-auto order-none">
               <a 
                 href="tel:28421523" 
                 className="group flex items-center gap-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-2 border-blue-500 dark:border-blue-400 px-4 py-2.5 rounded-xl text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/50 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-200" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-blue-100 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span className="text-base font-bold text-blue-800 dark:text-blue-200 tracking-wide">28421523</span>
-                <div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse"></div>
+                <span className="text-base font-bold tracking-wide">28421523</span>
+                <div className="w-2 h-2 bg-blue-200 dark:bg-blue-300 rounded-full animate-pulse"></div>
               </a>
             </div>
            
-            {/* آیکون‌های برند */}
-            <div className="flex items-center gap-2 w-full lg:w-auto justify-center lg:justify-end">
-              <div className="flex items-center gap-2 flex-wrap justify-center">
+            {/* آیکون‌های برند و دکمه تم - ردیف سوم موبایل */}
+            <div className="flex items-center gap-2 w-full justify-center order-3 lg:order-none lg:w-auto">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/40 dark:border-gray-700/40 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-lg">
                 <AppleIconNothing />
                 <AppleIconXiaomi />
                 <PlayStationIcon />
@@ -97,7 +108,15 @@ export default async function HomePage() {
                 <SimCardIcon />
                 <SamsungIcon />
                 <AppleIcon />
+                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-xl p-1.5 sm:p-2 shadow-lg">
+                  <ThemeToggle />
+                </div>
               </div>
+            </div>
+
+            {/* دکمه ورود/عضویت - ردیف چهارم موبایل */}
+            <div className="flex items-center justify-center w-full order-4 lg:order-none lg:w-auto">
+              <LoginButtonWrapper />
             </div>
           </div>
         </div>
