@@ -648,9 +648,37 @@ export default function DashboardPage() {
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         editableItem={editingItem}
-        onProductAdded={() => {
-          fetchItems();
-          setEditingItem(null); 
+        onProductAdded={(productData) => {
+          if (productData) {
+            const { product, isEdit } = productData;
+            if (isEdit && editingItem) {
+              // برای ویرایش، محصول موجود را به‌روزرسانی می‌کنیم
+              setCategories(prevCategories => 
+                prevCategories.map(category => ({
+                  ...category,
+                  products: category.products.map(p => 
+                    p.id === editingItem.product.id 
+                      ? { ...p, ...product }
+                      : p
+                  )
+                }))
+              );
+            } else {
+              // برای محصول جدید، آن را به دسته‌بندی مربوطه اضافه می‌کنیم
+              setCategories(prevCategories => 
+                prevCategories.map(category => 
+                  category.id === product.categoryId
+                    ? {
+                        ...category,
+                        products: [...category.products, product]
+                      }
+                    : category
+                )
+              );
+            }
+          }
+          setEditingItem(null);
+          setIsDialogOpen(false);
         }} 
       />
     </>

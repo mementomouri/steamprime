@@ -10,15 +10,15 @@ export async function POST(request: NextRequest) {
       return new NextResponse(JSON.stringify({ message: "Required fields are missing" }), { status: 400 });
     }
 
-    await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       // Update the product information
-      await tx.product.update({
+      const updatedProduct = await tx.product.update({
         where: { id: Number(productId) },
         data: { name, description: description || null },
       });
 
       // Create a new price for the product
-      await tx.price.create({
+      const newPrice = await tx.price.create({
         data: {
           amount: Number(amount),
           color: color || null,
@@ -34,9 +34,17 @@ export async function POST(request: NextRequest) {
         where: { id: Number(categoryId) },
         data: { updatedAt: new Date() },
       });
+
+      // برگرداندن محصول کامل با قیمت جدید
+      return {
+        product: {
+          ...updatedProduct,
+          prices: [newPrice]
+        }
+      };
     });
 
-    return NextResponse.json({ message: 'Price added successfully' });
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error adding price:", error);
     return new NextResponse("Internal Server Error", { status: 500 });

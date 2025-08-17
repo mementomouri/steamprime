@@ -22,7 +22,7 @@ export type EditableItem = {
 }
 
 interface AddProductDialogProps {
-  onProductAdded: () => void;
+  onProductAdded: (productData?: { product: Product & { prices: PriceWithDimensions[] }, isEdit: boolean }) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   editableItem: EditableItem | null;
@@ -94,8 +94,17 @@ export function AddProductDialog({ onProductAdded, open, onOpenChange, editableI
                 reject(new Error(errorResult.message || `Failed to ${isEditMode ? 'update' : 'add'} product`));
                 return;
             }
+            
+            const result = await response.json();
+            
+            // اطلاعات محصول جدید/ویرایش شده را به کامپوننت والد برمی‌گردانیم
+            if (result.product) {
+                onProductAdded({ product: result.product, isEdit: isEditMode });
+            } else {
+                onProductAdded();
+            }
+            
             onOpenChange(false);
-            onProductAdded();
             resolve();
         } catch (err) {
             reject(err as Error);

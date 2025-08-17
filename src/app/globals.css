@@ -61,7 +61,6 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -131,11 +130,181 @@
   body, * {
     font-family: 'IRANYekanX', sans-serif !important;
   }
+  
+  /* بهینه‌سازی برای موبایل */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  /* بهبود اسکرول در موبایل */
+  body {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* بهینه‌سازی جدول‌ها برای موبایل */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  /* بهبود نمایش در موبایل */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* بهینه‌سازی دکمه‌ها برای موبایل */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* بهبود نمایش متن در موبایل */
+  p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* اطمینان از عدم overflow آیکون‌ها */
+  button img, button svg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  /* بهینه‌سازی باکس شیشه‌ای */
+  .glass-box {
+    overflow: hidden;
+    contain: layout style paint;
+  }
+  
+  /* اطمینان از قرارگیری آیکون‌ها در باکس */
+  .icon-container {
+    overflow: visible;
+    position: relative;
+  }
+  
+  .icon-container button {
+    overflow: hidden;
+    position: relative;
+  }
 }
 
 /* کلاس سفارشی برای فونت B Yekan+ Bold */
 @layer utilities {
   .font-byekan {
     font-family: var(--font-byekan-bold), 'BYekanBold', sans-serif;
+  }
+  
+  /* کلاس‌های بهینه‌سازی موبایل */
+  .mobile-optimized {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .touch-friendly {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mobile-text {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    line-height: 1.5;
+  }
+  
+  .mobile-heading {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    line-height: 1.3;
+  }
+  
+  .mobile-spacing {
+    padding: clamp(0.75rem, 3vw, 1.5rem);
+    margin: clamp(0.5rem, 2vw, 1rem);
+  }
+  
+  /* کلاس‌های جدید برای آیکون‌ها */
+  .icon-safe {
+    overflow: hidden;
+    contain: layout style paint;
+  }
+  
+  .icon-contained {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* بهینه‌سازی برای صفحات کوچک */
+@media (max-width: 640px) {
+  .mobile-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .mobile-table {
+    font-size: 0.75rem;
+  }
+  
+  .mobile-card {
+    border-radius: 0.75rem;
+    padding: 1rem;
+  }
+  
+  /* اطمینان از عدم overflow آیکون‌ها در موبایل */
+  .icon-container button {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .icon-container img,
+  .icon-container svg {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+/* اسکرول نرم برای دکمه بازگشت به بالا */
+html {
+  scroll-behavior: smooth;
+}
+
+/* GlassyCircleIcon Hover Effects */
+.glassy-icon-wrapper:hover .glassy-circle {
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
+}
+
+.glassy-icon-wrapper:hover .glassy-arrow {
+  transform: translateY(-5px);
+}
+
+/* بهینه‌سازی برای تبلت */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .tablet-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .tablet-heading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* بهبود عملکرد انیمیشن‌ها */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

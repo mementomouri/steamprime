@@ -59,12 +59,12 @@ export async function PUT(
       return new NextResponse(JSON.stringify({ message: "Category not found" }), { status: 404 });
     }
 
-    await prisma.$transaction(async (tx) => {
-      await tx.product.update({
+    const result = await prisma.$transaction(async (tx) => {
+      const updatedProduct = await tx.product.update({
         where: { id: Number(productId) },
         data: { name, description: description || null },
       });
-      await tx.price.update({
+      const updatedPrice = await tx.price.update({
         where: { id: priceId },
         data: { 
           amount: Number(amount), 
@@ -78,9 +78,17 @@ export async function PUT(
         where: { id: Number(categoryId) },
         data: { updatedAt: new Date() },
       });
+
+      // برگرداندن محصول کامل با قیمت به‌روزرسانی شده
+      return {
+        product: {
+          ...updatedProduct,
+          prices: [updatedPrice]
+        }
+      };
     });
 
-    return NextResponse.json({ message: 'Update successful' });
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error updating data:", error);
     return new NextResponse(JSON.stringify({ message: "Internal Server Error" }), { status: 500 });

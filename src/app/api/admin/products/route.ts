@@ -96,7 +96,7 @@ export async function POST(request: Request) {
       });
 
       // ایجاد قیمت برای محصول
-      await tx.price.create({
+      const newPrice = await tx.price.create({
         data: { 
           amount: Number(amount), 
           productId: newProduct.id, 
@@ -113,7 +113,13 @@ export async function POST(request: Request) {
         data: { updatedAt: new Date() },
       });
 
-      return newProduct;
+      // برگرداندن محصول کامل با قیمت
+      return {
+        product: {
+          ...newProduct,
+          prices: [newPrice]
+        }
+      };
     });
 
     return NextResponse.json(result, { status: 201 });
