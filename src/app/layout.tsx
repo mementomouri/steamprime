@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local';
 import "./globals.css";
 import Providers from "./providers";
+import Script from "next/script";
 
 // تعریف فونت سفارشی با Next.js
 const byekanBold = localFont({
@@ -40,6 +41,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-HR2C2489W3" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-HR2C2489W3');
+        `}</Script>
+      </head>
       <body className={`font-sans ${byekanBold.variable}`}>
         <Providers>{children}</Providers>
       </body>
