@@ -99,25 +99,39 @@ export default async function HomePage() {
             {/* آیکون‌های برند - بهینه شده برای موبایل */}
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center icon-container">
               <div className="scale-100 sm:scale-110">
-                <AppleIconNothing />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <AppleIconNothing />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <AppleIconXiaomi />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <AppleIconXiaomi />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <PlayStationIcon />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <PlayStationIcon />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <AppleIconGoogle />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <AppleIconGoogle />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <SimCardIcon />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <SimCardIcon />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <SamsungIcon />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <SamsungIcon />
+                </div>
               </div>
               <div className="scale-100 sm:scale-110">
-                <AppleIcon />
+                <div className="rounded-xl p-2 sm:p-3 bg-white/25 dark:bg-gray-800/25 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-md hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-200">
+                  <AppleIcon />
+                </div>
               </div>
             </div>
           </div>

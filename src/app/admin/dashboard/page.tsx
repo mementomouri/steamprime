@@ -546,7 +546,7 @@ export default function DashboardPage() {
   return (
     <>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-extrabold md:text-2xl text-gray-900">مدیریت محصولات</h1>
+        <h1 className="text-lg font-extrabold md:text-2xl text-foreground">مدیریت محصولات</h1>
         <div className="flex items-center gap-2">
           {hasChanges && (
             <>
@@ -574,10 +574,10 @@ export default function DashboardPage() {
       </div>
 
       {hasChanges && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4 dark:bg-blue-950/40 dark:border-blue-800">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-            <span className="text-blue-800 font-medium">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse dark:bg-blue-400"></div>
+            <span className="text-blue-800 font-medium dark:text-blue-200">
               تغییرات ذخیره نشده وجود دارد. برای اعمال تغییرات روی &quot;ثبت تغییرات&quot; کلیک کنید.
             </span>
           </div>
@@ -594,7 +594,7 @@ export default function DashboardPage() {
           <Accordion type="single" collapsible className="w-full">
             {categories.map((category) => (
               <AccordionItem value={category.id.toString()} key={category.id}>
-                <AccordionTrigger className="text-xl font-bold bg-gray-100 px-4 rounded-md border">
+                <AccordionTrigger className="text-xl font-bold bg-gray-100 px-4 rounded-md border dark:bg-gray-800/50 dark:border-gray-700">
                   {category.name} ({category.products.length} محصول)
                 </AccordionTrigger>
                 <AccordionContent className="p-2">
@@ -629,7 +629,7 @@ export default function DashboardPage() {
                           </SortableContext>
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={6} className="h-24 text-center text-gray-500">
+                            <TableCell colSpan={6} className="h-24 text-center text-gray-500 dark:text-gray-400">
                               هیچ محصولی در این دسته‌بندی یافت نشد.
                             </TableCell>
                           </TableRow>
