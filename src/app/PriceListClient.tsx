@@ -101,28 +101,33 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
               </div>
               <div className="overflow-x-auto bg-white shadow-md rounded-b-lg">
                 <table className="min-w-full text-xs sm:text-sm text-center text-gray-800">
-                   <thead className="bg-gray-200 text-gray-600 uppercase tracking-wider">
+                   <thead className="bg-[#E8F3FF] text-[#1E293B] uppercase tracking-wider">
                       <tr>
-                        <th className="p-2 sm:p-3 text-right">گزینه</th>
-                        <th className="p-2 sm:p-3 text-center">رنگ</th>
-                        <th className="p-2 sm:p-3 text-center">حافظه</th>
-                        <th className="p-2 sm:p-3 text-center">گارانتی</th>
-                        <th className="p-2 sm:p-3 text-center">قیمت نقدی (تومان)</th>
+                        <th className="p-3 md:p-4 text-right">گزینه</th>
+                        <th className="p-3 md:p-4 text-center">رنگ</th>
+                        <th className="p-3 md:p-4 text-center">حافظه</th>
+                        <th className="p-3 md:p-4 text-center">گارانتی</th>
+                        <th className="p-3 md:p-4 text-center">قیمت نقدی (تومان)</th>
                       </tr>
                    </thead>
-                   <tbody className="divide-y divide-gray-200">
+                   <tbody className="divide-y" style={{ borderColor: '#E2E8F0' }}>
                     {category.products.flatMap(p => p.prices).length > 0 ? (
-                      category.products.flatMap(product => product.prices.map(price => (
-                        <tr key={price.id} className="hover:bg-gray-50">
-                          <td className="p-2 sm:p-3 font-semibold text-xs sm:text-sm text-right">{product.name}</td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.color || '-'}</td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.storage || '-'}</td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm">{price.warranty || '-'}</td>
-                          <td className="p-2 sm:p-3 font-bold text-black text-xs sm:text-sm md:text-base font-byekan">
-                            {price.amount ? new Intl.NumberFormat('fa-IR').format(Number(price.amount)) : '---'}
-                          </td>
-                        </tr>
-                      )))
+                      category.products
+                        .flatMap(product => product.prices.map(price => ({ product, price })))
+                        .map(({ product, price }, index) => (
+                          <tr
+                            key={price.id}
+                            className={`${index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#E8F3FF]'} hover:bg-[#DBEAFE]`}
+                          >
+                            <td className="p-3 md:p-4 font-semibold text-xs sm:text-sm text-right text-[#1E293B]">{product.name}</td>
+                            <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.color || '-'}</td>
+                            <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.storage || '-'}</td>
+                            <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.warranty || '-'}</td>
+                            <td className="p-3 md:p-4 font-bold text-[#1E293B] text-xs sm:text-sm md:text-base font-byekan">
+                              {price.amount ? new Intl.NumberFormat('fa-IR').format(Number(price.amount)) : '---'}
+                            </td>
+                          </tr>
+                        ))
                     ) : (
                       <tr>
                         <td colSpan={5} className="p-3 sm:p-4 text-center text-gray-500 text-xs sm:text-sm">

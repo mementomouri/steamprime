@@ -79,8 +79,8 @@ export default function ProductsPage() {
               {isLoading ? (
                 <TableRow><TableCell colSpan={5} className="text-center h-24">در حال بارگذاری...</TableCell></TableRow>
               ) : (
-                products.map((product) => (
-                  <TableRow key={product.id}>
+                products.map((product, index) => (
+                  <TableRow key={product.id} className={index % 2 === 0 ? "bg-[#FFFFFF]" : "bg-[#E8F3FF]"}>
                     <TableCell className="font-bold">{product.name}</TableCell>
                     <TableCell>{product.category.name}</TableCell>
                     <TableCell>

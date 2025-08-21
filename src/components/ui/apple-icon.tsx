@@ -16,11 +16,11 @@ export function AppleIcon() {
   return (
     <button 
       onClick={handleAppleClick}
-      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
       title="برو به بخش Apple"
     >
       <svg 
-        className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200" 
+        className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 group-hover:text-blue-600 transition-colors duration-200" 
         viewBox="0 0 24 24" 
         fill="currentColor"
       >
@@ -44,7 +44,7 @@ export function AppleIconNothing() {
   return (
     <button 
       onClick={handleNothingClick}
-      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
       title="برو به بخش nothing"
     >
       <Image
@@ -72,7 +72,7 @@ export function AppleIconGoogle() {
   return (
     <button 
       onClick={handleGoogleClick}
-      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
       title="برو به بخش google"
     >
       <Image
@@ -100,7 +100,7 @@ export function AppleIconXiaomi() {
   return (
     <button 
       onClick={handleXiaomiClick}
-      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
       title="برو به بخش XIAOMI"
     >
       <Image
