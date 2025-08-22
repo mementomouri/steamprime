@@ -243,6 +243,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* بهبود اسکرول به بخش‌ها */
+section[data-category] {
+  scroll-margin-top: 8rem; /* 128px - برای قرارگیری زیر هدر */
+}
+
 /* GlassyCircleIcon Hover Effects */
 .glassy-icon-wrapper:hover .glassy-circle {
   filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));

@@ -3,25 +3,28 @@ import Image from "next/image";
 
 export function SimCardIcon() {
   const handleSimCardClick = () => {
-    // جستجو برای نام‌های مختلف دسته‌بندی سیم کارت
-    const simCardSection = document.querySelector('[data-category="SIM CARD"]') || 
-                          document.querySelector('[data-category="sim card"]') ||
-                          document.querySelector('[data-category="Sim Card"]') ||
-                          document.querySelector('[data-category="سیم کارت"]');
-    
-    if (simCardSection) {
-      simCardSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    } else {
-      // اگر بخش سیم کارت پیدا نشد، به بالای لیست قیمت برو
-      const priceListSection = document.querySelector('[data-category]');
-      if (priceListSection) {
-        priceListSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
+    // ارسال رویداد برای اسکرول به بخش سیم کارت
+    if (typeof window !== 'undefined') {
+      // جستجو برای نام‌های مختلف دسته‌بندی سیم کارت
+      const simCardSection = document.querySelector('[data-category="SIM CARD"]') || 
+                            document.querySelector('[data-category="sim card"]') ||
+                            document.querySelector('[data-category="Sim Card"]') ||
+                            document.querySelector('[data-category="سیم کارت"]');
+      
+      if (simCardSection) {
+        const categoryName = simCardSection.getAttribute('data-category');
+        window.dispatchEvent(new CustomEvent('scrollToSection', { 
+          detail: { categoryName }
+        }));
+      } else {
+        // اگر بخش سیم کارت پیدا نشد، به اولین بخش برو
+        const firstSection = document.querySelector('[data-category]');
+        if (firstSection) {
+          const categoryName = firstSection.getAttribute('data-category');
+          window.dispatchEvent(new CustomEvent('scrollToSection', { 
+            detail: { categoryName }
+          }));
+        }
       }
     }
   };

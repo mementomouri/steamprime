@@ -8,9 +8,10 @@ import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@
 import { SamsungIcon } from '@/components/ui/samsung-icon';
 import { PlayStationIcon } from '@/components/ui/playstation-icon';
 import { SimCardIcon } from '@/components/ui/sim-card-icon';
-import GlassyCircleIcon from '@/components/ui/glassy-circle-icon';
+import { MacbookIcon } from '@/components/ui/macbook-icon';
+import ScrollToTopButton from '@/components/ui/scroll-to-top-button';
 
-export const revalidate = 60; // هر ۶۰ ثانیه یک بار داده‌ها را از نو می‌خواند
+export const revalidate = 30; // هر ۳۰ ثانیه یک بار داده‌ها را از نو می‌خواند
 
 // این تایپ‌های جدید برای داده‌های سریالایز شده هستند
 type SerializablePrice = Omit<Price, 'amount'> & { amount: string };
@@ -47,9 +48,9 @@ export default async function HomePage() {
   // ===============================================
 
   return (
-         <main className="w-full min-h-screen bg-[#F9FBFF] mobile-optimized">
-       {/* هدر جدید - بهینه شده برای موبایل */}
-       <header id="top" className="w-full bg-gradient-to-r from-white/95 via-white/90 to-white/95 backdrop-blur-xl border-b border-white/40 shadow-xl">
+         <main className="w-full min-h-screen bg-[#F9FBFF] mobile-optimized pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+       {/* هدر جدید - بهینه شده برای موبایل و ثابت */}
+       <header id="top" className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-white/95 via-white/90 to-white/95 backdrop-blur-xl border-b border-white/40 shadow-xl">
         <div className="mx-auto py-2 sm:py-3 md:py-4 lg:py-5">
           <div className="flex flex-col items-center gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between px-3 sm:px-4 lg:px-6">
             {/* لوگو - در دسکتاپ سمت چپ، در موبایل بالا */}
@@ -63,16 +64,19 @@ export default async function HomePage() {
               />
             </div>
             
-            {/* سرچ‌بار - ردیف دوم موبایل، در یک خط */}
+            {/* سرچ‌بار و دکمه بازگشت به بالا - ردیف دوم موبایل */}
             <div className="w-full order-2 lg:order-none lg:hidden flex flex-row items-center gap-2 sm:gap-3">
               <div className="flex-1">
                 <SearchBar data={serializableData} />
               </div>
+              {/* دکمه بازگشت به بالا - موبایل */}
+              <ScrollToTopButton size="mobile" />
             </div>
             
-            {/* سرچ‌بار - فقط در دسکتاپ، کنار لوگو */}
-            <div className="hidden lg:flex items-center lg:flex-1 lg:min-w-0 order-3 lg:order-none">
+            {/* سرچ‌بار و دکمه بازگشت به بالا - فقط در دسکتاپ، کنار لوگو */}
+            <div className="hidden lg:flex items-center lg:flex-1 lg:min-w-0 order-3 lg:order-none gap-4">
               <SearchBar data={serializableData} />
+              <ScrollToTopButton size="desktop" />
             </div>
           </div>
         </div>
@@ -96,65 +100,54 @@ export default async function HomePage() {
               </a>
             </div>
             
-            {/* آیکون‌های برند - بهینه شده برای موبایل */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center icon-container">
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <AppleIconNothing />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <AppleIconXiaomi />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <PlayStationIcon />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <AppleIconGoogle />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <SimCardIcon />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <SamsungIcon />
-                </div>
-              </div>
-              <div className="scale-100 sm:scale-110">
-                <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
-                  <AppleIcon />
-                </div>
-              </div>
-            </div>
+                         {/* آیکون‌های برند - بهینه شده برای موبایل */}
+             <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center icon-container">
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <AppleIconNothing />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <AppleIconXiaomi />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <PlayStationIcon />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <AppleIconGoogle />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <SimCardIcon />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <SamsungIcon />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <AppleIcon />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <MacbookIcon />
+                 </div>
+               </div>
+             </div>
           </div>
         </div>
       </div>
 
       <PriceListClient initialData={serializableData} />
-      
-      {/* دکمه بازگشت به بالا - بالای فوتر */}
-      <div className="w-full py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-center">
-            <a 
-              href="#top"
-              className="group flex flex-col items-center gap-2 sm:gap-3 transition-all duration-300 hover:scale-105 touch-friendly"
-              title="بازگشت به بالا"
-            >
-              <GlassyCircleIcon />
-              <span className="text-sm sm:text-base font-semibold text-black">بازگشت به بالا</span>
-            </a>
-          </div>
-        </div>
-      </div>
       
       {/* فوتر جدید - یکدست و مدرن - بهینه شده برای موبایل */}
       <footer className="w-full bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">

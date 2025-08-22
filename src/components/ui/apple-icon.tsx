@@ -4,12 +4,11 @@ import Image from "next/image";
 
 export function AppleIcon() {
   const handleAppleClick = () => {
-    const appleSection = document.querySelector('[data-category="APPLE"]');
-    if (appleSection) {
-      appleSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // ارسال رویداد برای اسکرول به بخش APPLE
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'APPLE' }
+      }));
     }
   };
 
@@ -32,12 +31,11 @@ export function AppleIcon() {
 
 export function AppleIconNothing() {
   const handleNothingClick = () => {
-    const nothingSection = document.querySelector('[data-category="NOTHING"]');
-    if (nothingSection) {
-      nothingSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // ارسال رویداد برای اسکرول به بخش NOTHING
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'NOTHING' }
+      }));
     }
   };
 
@@ -60,12 +58,11 @@ export function AppleIconNothing() {
 
 export function AppleIconGoogle() {
   const handleGoogleClick = () => {
-    const googleSection = document.querySelector('[data-category="GOOGLE"]');
-    if (googleSection) {
-      googleSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // ارسال رویداد برای اسکرول به بخش GOOGLE
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'GOOGLE' }
+      }));
     }
   };
 
@@ -88,12 +85,11 @@ export function AppleIconGoogle() {
 
 export function AppleIconXiaomi() {
   const handleXiaomiClick = () => {
-    const xiaomiSection = document.querySelector('[data-category="XIAOMI"]');
-    if (xiaomiSection) {
-      xiaomiSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // ارسال رویداد برای اسکرول به بخش XIAOMI
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'XIAOMI' }
+      }));
     }
   };
 

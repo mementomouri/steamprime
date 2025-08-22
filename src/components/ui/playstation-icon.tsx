@@ -3,12 +3,11 @@ import Image from "next/image";
 
 export function PlayStationIcon() {
   const handlePlayStationClick = () => {
-    const playstationSection = document.querySelector('[data-category="PLAYSTATION"]');
-    if (playstationSection) {
-      playstationSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // ارسال رویداد برای اسکرول به بخش PLAYSTATION
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'PLAYSTATION' }
+      }));
     }
   };
 

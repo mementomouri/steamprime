@@ -3,9 +3,9 @@ import React from "react";
 
 const GlassyCircleIcon: React.FC = () => {
   return (
-    <div className="flex items-center justify-center w-14 h-14 rounded-full overflow-hidden cursor-pointer transition-all duration-300 transform hover:scale-105 glassy-icon-wrapper">
+    <div className="flex items-center justify-center w-full h-full rounded-full overflow-hidden cursor-pointer transition-all duration-300 transform hover:scale-105 glassy-icon-wrapper">
       <svg
-        className="w-full h-full p-3"
+        className="w-full h-full p-2"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
