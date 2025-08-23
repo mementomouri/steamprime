@@ -109,7 +109,7 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
               data-category={category.name}
               className={`transition-all duration-500 scroll-mt-32`}
             >
-              <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center text-white p-3 sm:p-4 rounded-t-lg gap-2 sm:gap-3 ${category.brandColor || 'bg-gray-800'}`}>
+              <div className={`flex flex-row justify-between items-center text-white p-3 sm:p-4 rounded-t-lg gap-2 sm:gap-3 ${category.brandColor || 'bg-gray-800'}`}>
                 <h2 className="text-base sm:text-lg md:text-xl font-bold">{category.name}</h2>
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="flex items-center gap-2 sm:gap-3 bg-blue-600/90 backdrop-blur-md border-2 border-blue-400 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl shadow-lg">

@@ -9,7 +9,8 @@ import { SamsungIcon } from '@/components/ui/samsung-icon';
 import { PlayStationIcon } from '@/components/ui/playstation-icon';
 import { SimCardIcon } from '@/components/ui/sim-card-icon';
 import { MacbookIcon } from '@/components/ui/macbook-icon';
-import ScrollToTopButton from '@/components/ui/scroll-to-top-button';
+import LiquidGlassButton from '@/components/ui/liquid-glass-button';
+
 
 export const revalidate = 30; // هر ۳۰ ثانیه یک بار داده‌ها را از نو می‌خواند
 
@@ -64,19 +65,22 @@ export default async function HomePage() {
               />
             </div>
             
-            {/* سرچ‌بار و دکمه بازگشت به بالا - ردیف دوم موبایل */}
-            <div className="w-full order-2 lg:order-none lg:hidden flex flex-row items-center gap-2 sm:gap-3">
+            {/* سرچ‌بار و دکمه - ردیف دوم موبایل */}
+            <div className="w-full order-2 lg:order-none lg:hidden flex flex-row items-center gap-3">
               <div className="flex-1">
                 <SearchBar data={serializableData} />
               </div>
-              {/* دکمه بازگشت به بالا - موبایل */}
-              <ScrollToTopButton size="mobile" />
-            </div>
-            
-            {/* سرچ‌بار و دکمه بازگشت به بالا - فقط در دسکتاپ، کنار لوگو */}
+              <LiquidGlassButton size="small" variant="primary">
+               بالا ! 
+             
+              </LiquidGlassButton>
+            </div> 
+            {/* سرچ‌بار و دکمه - فقط در دسکتاپ، کنار لوگو */}
             <div className="hidden lg:flex items-center lg:flex-1 lg:min-w-0 order-3 lg:order-none gap-4">
               <SearchBar data={serializableData} />
-              <ScrollToTopButton size="desktop" />
+              <LiquidGlassButton size="medium" variant="secondary">
+              بریم بالا ! 
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

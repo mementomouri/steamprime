@@ -238,10 +238,7 @@
   }
 }
 
-/* اسکرول نرم برای دکمه بازگشت به بالا */
-html {
-  scroll-behavior: smooth;
-}
+
 
 /* بهبود اسکرول به بخش‌ها */
 section[data-category] {
@@ -283,3 +280,35 @@ section[data-category] {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* انیمیشن‌های سفارشی برای دکمه Liquid Glass */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* انیمیشن fadeInUp برای پیام */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+
