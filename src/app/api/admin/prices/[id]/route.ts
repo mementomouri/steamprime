@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 
 // تابع برای ویرایش (Update) یک قیمت
 export async function PUT(
@@ -48,7 +49,7 @@ export async function PUT(
 
       await prisma.price.update({
         where: { id: priceId },
-        data: { discount: Number(discount) } as any,
+        data: { discount: Number(discount) } satisfies Prisma.PriceUpdateInput,
       });
 
       return NextResponse.json({ message: 'Discount updated successfully' });
@@ -80,14 +81,14 @@ export async function PUT(
       });
       const updatedPrice = await tx.price.update({
         where: { id: priceId },
-        data: { 
-          amount: Number(amount), 
-          color: color || null, 
-          storage: storage || null, 
-          warranty: warranty || null, 
+        data: {
+          amount: Number(amount),
+          color: color || null,
+          storage: storage || null,
+          warranty: warranty || null,
           label: label || 'اصلی',
-          discount: discount !== undefined ? Number(discount) : null
-        } as any,
+          discount: discount !== undefined ? Number(discount) : null,
+        } satisfies Prisma.PriceUpdateInput,
       });
       await tx.category.update({
         where: { id: Number(categoryId) },

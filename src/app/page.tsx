@@ -254,9 +254,11 @@ export default async function HomePage() {
                 {/* Enamad Trust Seal */}
                 <div className="flex justify-center mt-2 gap-3 sm:gap-4">
                   <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img referrerPolicy="origin" src="https://trustseal.enamad.ir/logo.aspx?id=633944&Code=jWDKWWr7vUb90Ux7m6wx52M9Xoj0PYXz" alt="enamad" style={{cursor:'pointer'}} />
                   </a>
                   <a referrerPolicy="origin" target="_blank" href="https://logo.samandehi.ir/Verify.aspx?id=391969&p=xlaopfvlrfthpfvlgvkapfvl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img referrerPolicy="origin" id="rgvjsizpjxlzsizpfukzsizp" style={{cursor:'pointer'}} alt="logo-samandehi" src="https://logo.samandehi.ir/logo.aspx?id=391969&p=qftibsiynbpdbsiywlbqbsiy" />
                   </a>
                 </div>

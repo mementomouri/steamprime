@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { Category, Product, Price } from "@prisma/client";
 
 // این تایپ‌های جدید برای داده‌های سریالایز شده هستند
-type SerializablePrice = Omit<Price, 'amount'> & { amount: string };
+type SerializablePrice = Omit<Price, 'amount' | 'discount'> & { amount: string; discount: string | null };
 type SerializableProduct = Omit<Product, 'prices'> & { prices: SerializablePrice[] };
 type SerializableCategory = Omit<Category, 'products'> & { products: SerializableProduct[] };
 

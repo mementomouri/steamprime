@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import PriceDisplay from './PriceDisplay';
 import type { Category, Product, Price } from "@prisma/client";
 
 type PriceItem = Omit<Price, 'amount' | 'discount'> & { 
@@ -163,33 +164,9 @@ export default function PriceListClient({ initialData }: PriceListClientProps) {
                             <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.color || '-'}</td>
                             <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.storage || '-'}</td>
                             <td className="p-3 md:p-4 text-xs sm:text-sm text-[#1E293B]">{price.warranty || '-'}</td>
-                                                                                      <td className="p-3 md:p-4 font-bold text-[#1E293B] text-xs sm:text-sm md:text-base font-byekan">
-                                                               {price.discount && Number(price.discount) > 0 ? (
-                                  <div className="flex flex-col items-center gap-1">
-                                    {/* قیمت جدید و آیکون تخفیف در کنار هم */}
-                                    <div className="flex items-center justify-center gap-3">
-                                      {/* قیمت با تخفیف - بزرگتر و بهینه‌تر */}
-                                      <div className="text-green-600 font-bold text-base sm:text-lg">
-                                        {new Intl.NumberFormat('fa-IR').format(
-                                          Number(price.amount) - (Number(price.amount) * Number(price.discount) / 100)
-                                        )}
-                                      </div>
-                                      {/* درصد تخفیف - زیباتر و واضح‌تر */}
-                                      <div className="bg-gradient-to-br from-red-500 to-red-600 text-white text-xs w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg border-2 border-red-400">
-                                        {Number(price.discount)}%
-                                      </div>
-                                    </div>
-                                    {/* قیمت اصلی با خط قرمز - دقیقاً زیر قیمت جدید */}
-                                    <div className="text-red-500 line-through text-xs opacity-75 -mt-1">
-                                      {new Intl.NumberFormat('fa-IR').format(Number(price.amount))}
-                                    </div>
-                                  </div>
-                               ) : (
-                                 <div className="text-[#1E293B]">
-                                   {price.amount ? new Intl.NumberFormat('fa-IR').format(Number(price.amount)) : '---'}
-                                 </div>
-                               )}
-                             </td>
+                            <td className="p-3 md:p-4 font-bold text-[#1E293B] text-xs sm:text-sm md:text-base font-byekan">
+                              <PriceDisplay amount={price.amount} discount={price.discount} />
+                            </td>
                           </tr>
                         ))
                     ) : (

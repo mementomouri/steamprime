@@ -14,11 +14,6 @@ const byekanBold = localFont({
 export const metadata: Metadata = {
   title: "Mobile Tiger",
   description: "Price list for mobile devices",
-  icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
-  },
   other: {
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-capable': 'yes',
