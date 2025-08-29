@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import Image from "next/image";
 import type { Category, Product, Price } from "@prisma/client";
 import { Phone } from "lucide-react";
-import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi } from '@/components/ui/apple-icon';
+import { AppleIcon, AppleIconNothing, AppleIconGoogle, AppleIconXiaomi, UsedIcon, SpeakerIcon } from '@/components/ui/apple-icon';
 import { SamsungIcon } from '@/components/ui/samsung-icon';
 import { PlayStationIcon } from '@/components/ui/playstation-icon';
 import { SimCardIcon } from '@/components/ui/sim-card-icon';
@@ -12,10 +12,13 @@ import { MacbookIcon } from '@/components/ui/macbook-icon';
 import LiquidGlassButton from '@/components/ui/liquid-glass-button';
 
 
-export const revalidate = 30; // هر ۳۰ ثانیه یک بار داده‌ها را از نو می‌خواند
+export const revalidate = 10; // هر 10 ثانیه یک بار داده‌ها را از نو می‌خواند
 
 // این تایپ‌های جدید برای داده‌های سریالایز شده هستند
-type SerializablePrice = Omit<Price, 'amount'> & { amount: string };
+type SerializablePrice = Omit<Price, 'amount' | 'discount'> & { 
+  amount: string;
+  discount: string | null;
+};
 type SerializableProduct = Omit<Product, 'prices'> & { prices: SerializablePrice[] };
 type SerializableCategory = Omit<Category, 'products'> & { products: SerializableProduct[] };
 
@@ -43,6 +46,7 @@ export default async function HomePage() {
       prices: product.prices.map(price => ({
         ...price,
         amount: price.amount.toString(), // تبدیل Decimal به string
+        discount: price.discount?.toString() || null, // تبدیل Decimal به string یا null
       })),
     })),
   }));
@@ -113,7 +117,17 @@ export default async function HomePage() {
                </div>
                <div className="scale-100 sm:scale-110">
                  <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <UsedIcon />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
                    <AppleIconXiaomi />
+                 </div>
+               </div>
+               <div className="scale-100 sm:scale-110">
+                 <div className="rounded-xl p-2 sm:p-3 bg-white/25 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/30 transition-colors duration-200">
+                   <SpeakerIcon />
                  </div>
                </div>
                <div className="scale-100 sm:scale-110">

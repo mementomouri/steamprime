@@ -109,3 +109,57 @@ export function AppleIconXiaomi() {
     </button>
   );
 } 
+
+export function UsedIcon() {
+  const handleUsedClick = () => {
+    // ارسال رویداد برای اسکرول به بخش USED
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'گوشی های کارکرده' }
+      }));
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleUsedClick}
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      title="برو به بخش USED"
+    >
+      <Image
+        src="/USEDSVG.svg"
+        alt="Used"
+        width={40}
+        height={40}
+        className="w-[2.2rem] h-[2.2rem] sm:w-[2.75rem] sm:h-[2.75rem] transition-all duration-200 group-hover:scale-110"
+      />
+    </button>
+  );
+}
+
+export function SpeakerIcon() {
+  const handleSpeakerClick = () => {
+    // ارسال رویداد برای اسکرول به بخش SPEAKER
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('scrollToSection', { 
+        detail: { categoryName: 'اسپیکر' }
+      }));
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleSpeakerClick}
+      className="group flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 touch-friendly"
+      title="برو به بخش اسپیکر"
+    >
+      <Image
+        src="/speaker.svg"
+        alt="Speaker"
+        width={40}
+        height={40}
+        className="w-[2.2rem] h-[2.2rem] sm:w-[2.75rem] sm:h-[2.75rem] transition-all duration-200 group-hover:scale-110"
+      />
+    </button>
+  );
+}

@@ -42,6 +42,7 @@ CREATE TABLE "Price" (
     "storage" TEXT,
     "warranty" TEXT,
     "label" TEXT,
+    "discount" DECIMAL(15,2),
 
     CONSTRAINT "Price_pkey" PRIMARY KEY ("id")
 );

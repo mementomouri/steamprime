@@ -15,7 +15,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, description, productId, categoryId, amount, color, storage, warranty, label } = body;
+    const { name, description, productId, categoryId, amount, color, storage, warranty, label, discount } = body;
 
     // بررسی وجود قیمت
     const existingPrice = await prisma.price.findUnique({
@@ -38,6 +38,20 @@ export async function PUT(
       });
 
       return NextResponse.json({ message: 'Price updated successfully' });
+    }
+
+    // اگر فقط discount ارسال شده باشد (ویرایش مستقیم تخفیف)
+    if (discount !== undefined && !name && !productId && !categoryId && amount === undefined) {
+      if (isNaN(Number(discount)) || Number(discount) < 0 || Number(discount) > 100) {
+        return new NextResponse(JSON.stringify({ message: "Invalid discount percentage (must be 0-100)" }), { status: 400 });
+      }
+
+      await prisma.price.update({
+        where: { id: priceId },
+        data: { discount: Number(discount) } as any,
+      });
+
+      return NextResponse.json({ message: 'Discount updated successfully' });
     }
 
     // ویرایش کامل (همه فیلدها)
@@ -71,8 +85,9 @@ export async function PUT(
           color: color || null, 
           storage: storage || null, 
           warranty: warranty || null, 
-          label: label || 'اصلی' 
-        },
+          label: label || 'اصلی',
+          discount: discount !== undefined ? Number(discount) : null
+        } as any,
       });
       await tx.category.update({
         where: { id: Number(categoryId) },

@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface LiquidGlassButtonProps {
   children: React.ReactNode;
@@ -16,7 +16,19 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
   variant = "primary" 
 }) => {
 
+  const [showClickRing, setShowClickRing] = useState(false);
+  const ringTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const handleClick = () => {
+    // Show ring on click, hide after 3 seconds
+    setShowClickRing(true);
+    if (ringTimeoutRef.current) {
+      clearTimeout(ringTimeoutRef.current);
+    }
+    ringTimeoutRef.current = setTimeout(() => {
+      setShowClickRing(false);
+    }, 2000);
+
     // Scroll to top of the page
     window.scrollTo({
       top: 0,
@@ -28,6 +40,14 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
       onClick();
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (ringTimeoutRef.current) {
+        clearTimeout(ringTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Size variants
   const sizeClasses = {
@@ -66,7 +86,7 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
               <button
           onClick={handleClick}
           className={`relative z-10 ${sizeClasses[size]} font-bold rounded-full transition-all duration-300 transform 
-                     hover:scale-105 focus:outline-none focus:ring-4 ${currentVariant.ring} focus:ring-opacity-50
+                     hover:scale-105 focus:outline-none ${showClickRing ? `ring-4 ${currentVariant.ring} ring-opacity-50` : ''}
                      overflow-hidden touch-friendly`}
         style={{
           // CSS for the liquid glass effect

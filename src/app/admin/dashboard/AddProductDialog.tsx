@@ -14,7 +14,10 @@ import toast from 'react-hot-toast';
 // import { Switch } from "@/components/ui/switch"; // <-- Switch حذف شد چون استفاده نمی‌شد
 
 // تایپ Price را گسترش می‌دهیم تا dimensions را به صورت اختیاری بپذیرد
-type PriceWithDimensions = Price & { dimensions?: string | null };
+type PriceWithDimensions = Price & { 
+  dimensions?: string | null;
+  discount?: number | null;
+};
 
 export type EditableItem = {
   product: Product;
