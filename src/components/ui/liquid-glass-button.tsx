@@ -59,19 +59,19 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
   // Color variants
   const colorVariants = {
     primary: {
-      background: "from-[#455def] to-[#455def]",
-      overlay: "from-[#455def]/30 to-[#455def]/30",
-      ring: "focus:ring-[#455def]"
+      background: "from-[#1e3a8a] via-[#312e81] to-[#4c1d95]",
+      overlay: "from-[#2563eb]/25 to-[#8b5cf6]/25",
+      ring: "focus:ring-[#1e3a8a]"
     },
     secondary: {
-      background: "from-[#455def] to-[#455def]",
-      overlay: "from-[#455def]/30 to-[#455def]/30",
-      ring: "focus:ring-[#455def]"
+      background: "from-[#0c4a6e] to-[#0a3a57]",
+      overlay: "from-[#06b6d4]/25 to-[#0ea5e9]/25",
+      ring: "focus:ring-[#0c4a6e]"
     },
     success: {
-      background: "from-[#455def] to-[#455def]",
-      overlay: "from-[#455def]/30 to-[#455def]/30",
-      ring: "focus:ring-[#455def]"
+      background: "from-[#14532d] to-[#064e3b]",
+      overlay: "from-[#16a34a]/25 to-[#22c55e]/25",
+      ring: "focus:ring-[#14532d]"
     }
   };
 
