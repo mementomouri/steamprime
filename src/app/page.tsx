@@ -74,7 +74,7 @@ export default async function HomePage() {
               <div className="flex-1">
                 <SearchBar data={serializableData} />
               </div>
-              <LiquidGlassButton size="small" variant="primary">
+              <LiquidGlassButton size="small" variant="blue">
                بالا ! 
              
               </LiquidGlassButton>
@@ -82,7 +82,7 @@ export default async function HomePage() {
             {/* سرچ‌بار و دکمه - فقط در دسکتاپ، کنار لوگو */}
             <div className="hidden lg:flex items-center lg:flex-1 lg:min-w-0 order-3 lg:order-none gap-4">
               <SearchBar data={serializableData} />
-              <LiquidGlassButton size="medium" variant="secondary">
+              <LiquidGlassButton size="medium" variant="blue">
               بریم بالا ! 
               </LiquidGlassButton>
             </div>

@@ -6,7 +6,7 @@ interface LiquidGlassButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary" | "success";
+  variant?: "primary" | "secondary" | "success" | "blue";
 }
 
 const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({ 
@@ -72,6 +72,11 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
       background: "from-[#14532d] to-[#064e3b]",
       overlay: "from-[#16a34a]/25 to-[#22c55e]/25",
       ring: "focus:ring-[#14532d]"
+    },
+    blue: {
+      background: "from-[#172aff] to-[#0f1bff]",
+      overlay: "from-[#172aff]/25 to-[#0f1bff]/25",
+      ring: "focus:ring-[#172aff]"
     }
   };
 
