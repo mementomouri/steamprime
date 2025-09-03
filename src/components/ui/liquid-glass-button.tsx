@@ -84,35 +84,18 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
 
   return (
     <div className="relative">
-      {/* The background for the button to show the blur effect */}
-      <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${currentVariant.background} opacity-70 blur-xl`}></div>
-      
       {/* The main button component */}
-              <button
-          onClick={handleClick}
-          className={`relative z-10 ${sizeClasses[size]} font-bold rounded-full transition-all duration-300 transform 
-                     hover:scale-105 focus:outline-none ${showClickRing ? `ring-4 ${currentVariant.ring} ring-opacity-50` : ''}
-                     overflow-hidden touch-friendly`}
-        style={{
-          // CSS for the liquid glass effect
-          background: "rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)", // For Safari support
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-        }}
+      <button
+        onClick={handleClick}
+        className={`relative z-10 ${sizeClasses[size]} font-bold rounded-full transition-all duration-300 transform 
+                   hover:scale-105 focus:outline-none ${showClickRing ? `ring-4 ${currentVariant.ring} ring-opacity-50` : ''}
+                   overflow-hidden touch-friendly bg-gradient-to-r ${currentVariant.background} 
+                   border-2 border-white/20 shadow-lg hover:shadow-xl`}
       >
         <span className="relative z-10 flex items-center justify-center text-white font-medium">
           {children}
         </span>
-        
-        {/* Animated gradient overlay */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-r ${currentVariant.overlay} animate-pulse-slow rounded-full`}
-          style={{ mixBlendMode: "overlay" }}
-        ></div>
       </button>
-
-
     </div>
   );
 };

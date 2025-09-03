@@ -55,7 +55,7 @@ export default async function HomePage() {
   return (
          <main className="w-full min-h-screen bg-[#F9FBFF] mobile-optimized pt-20 sm:pt-24 md:pt-28 lg:pt-32">
        {/* هدر جدید - بهینه شده برای موبایل و ثابت */}
-       <header id="top" className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-white/95 via-white/90 to-white/95 backdrop-blur-xl border-b border-white/40 shadow-xl">
+       <header id="top" className="fixed top-0 left-0 right-0 z-50 w-full bg-white border-b border-gray-200 shadow-lg">
         <div className="mx-auto py-2 sm:py-3 md:py-4 lg:py-5">
           <div className="flex flex-col items-center gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between px-3 sm:px-4 lg:px-6">
             {/* لوگو - در دسکتاپ سمت چپ، در موبایل بالا */}
